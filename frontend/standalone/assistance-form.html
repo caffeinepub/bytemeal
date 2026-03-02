@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Assistance – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link active">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="form-main">
+    <div class="container">
+      <div class="form-wrapper">
+        <div class="glass-card form-card">
+          <div class="form-header">
+            <div class="form-icon">🤝</div>
+            <h1 class="form-title">Request Food Assistance</h1>
+            <p class="form-subtitle">We're here to help. Fill in your details and we'll connect you with available food resources.</p>
+          </div>
+
+          <form id="assistanceForm" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="recipientName">Recipient Name / Organization *</label>
+              <input
+                type="text"
+                id="recipientName"
+                name="recipientName"
+                class="form-input"
+                placeholder="Your name or organization name"
+                required
+              />
+              <span class="field-error" id="recipientNameError"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="numberOfPeople">Number of People *</label>
+                <input
+                  type="number"
+                  id="numberOfPeople"
+                  name="numberOfPeople"
+                  class="form-input"
+                  placeholder="e.g., 10"
+                  min="1"
+                  required
+                />
+                <span class="field-error" id="numberOfPeopleError"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="urgency">Urgency Level *</label>
+                <select id="urgency" name="urgency" class="form-input form-select" required>
+                  <option value="">Select urgency</option>
+                  <option value="low">Low – Within a week</option>
+                  <option value="medium">Medium – Within 2-3 days</option>
+                  <option value="high">High – Within 24 hours</option>
+                  <option value="critical">Critical – Immediate</option>
+                </select>
+                <span class="field-error" id="urgencyError"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact">Contact Number *</label>
+              <input
+                type="tel"
+                id="contact"
+                name="contact"
+                class="form-input"
+                placeholder="Phone number"
+                required
+              />
+              <span class="field-error" id="contactError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="itemsRequired">Items Required *</label>
+              <textarea
+                id="itemsRequired"
+                name="itemsRequired"
+                class="form-input form-textarea"
+                placeholder="List the food items you need (e.g., Rice 5kg, Vegetables, Bread)"
+                rows="3"
+                required
+              ></textarea>
+              <span class="field-error" id="itemsRequiredError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="deliveryAddress">Delivery Address *</label>
+              <input
+                type="text"
+                id="deliveryAddress"
+                name="deliveryAddress"
+                class="form-input"
+                placeholder="Full delivery address"
+                required
+              />
+              <span class="field-error" id="deliveryAddressError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="additionalInfo">Additional Information</label>
+              <textarea
+                id="additionalInfo"
+                name="additionalInfo"
+                class="form-input form-textarea"
+                placeholder="Any dietary restrictions, special requirements, or other details..."
+                rows="3"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-blue btn-full" id="submitBtn">
+              <span id="submitText">Submit Request</span>
+              <span id="submitSpinner" class="spinner hidden"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. Built with ❤️ using
+          <a href="https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=bytemeal-standalone" target="_blank" rel="noopener" class="footer-link">caffeine.ai</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    document.getElementById('assistanceForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      var recipientName = document.getElementById('recipientName').value.trim();
+      var numberOfPeople = document.getElementById('numberOfPeople').value.trim();
+      var urgency = document.getElementById('urgency').value;
+      var contact = document.getElementById('contact').value.trim();
+      var itemsRequired = document.getElementById('itemsRequired').value.trim();
+      var deliveryAddress = document.getElementById('deliveryAddress').value.trim();
+      var additionalInfo = document.getElementById('additionalInfo').value.trim();
+
+      var valid = true;
+
+      if (!recipientName) { showFieldError('recipientNameError', 'Recipient name is required.'); valid = false; }
+      if (!numberOfPeople || isNaN(numberOfPeople) || Number(numberOfPeople) < 1) { showFieldError('numberOfPeopleError', 'Enter a valid number.'); valid = false; }
+      if (!urgency) { showFieldError('urgencyError', 'Please select urgency level.'); valid = false; }
+      if (!contact) { showFieldError('contactError', 'Contact number is required.'); valid = false; }
+      if (!itemsRequired) { showFieldError('itemsRequiredError', 'Please list the items required.'); valid = false; }
+      if (!deliveryAddress) { showFieldError('deliveryAddressError', 'Delivery address is required.'); valid = false; }
+
+      if (!valid) return;
+
+      var btn = document.getElementById('submitBtn');
+      setButtonLoading(btn, true);
+
+      setTimeout(function () {
+        saveAssistanceRequest({
+          recipientName: recipientName,
+          numberOfPeople: numberOfPeople,
+          urgency: urgency,
+          contact: contact,
+          itemsRequired: itemsRequired,
+          deliveryAddress: deliveryAddress,
+          additionalInfo: additionalInfo
+        });
+
+        setButtonLoading(btn, false);
+        showToast('✅ Assistance request submitted! We will connect you with available resources shortly.', 'success');
+        document.getElementById('assistanceForm').reset();
+      }, 800);
+    });
+  </script>
+</body>
+</html>

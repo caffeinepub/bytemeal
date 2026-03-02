@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 11,
+  "summary": "ByteMeal is a professional food waste management website with a Glassmorphism UI (blurred food background, Vibrant Orange and Sky Blue). It includes a Home Page with tagline and CTA buttons, a Donor Form with submission popup, a Recipient/NGO Assistance Request Form, a Volunteer Registration Form, and a simple User Dashboard. The user has requested a standalone plain HTML + CSS + JavaScript version of the site that can be run directly in a browser without any build tools or framework setup.",
+  "architectural_notes": [
+    "Glassmorphism UI with blurred food background; primary colors: Vibrant Orange and Sky Blue",
+    "Fully responsive layout with high-quality food and delivery icons",
+    "Tech stack: JavaScript, Python, HTML, CSS (as requested by user)",
+    "User requested a standalone HTML/CSS/JS version runnable directly in a browser without any framework or build tool"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-apply-a-glassmorphism-design-system-across-the-entire-site-using-vibrant-orange-ff6b2b-and-sky-blue-38bdf8-as-primary-accent-colors-use-frosted-glass-cards-backdrop-filter-blur-semi-transparent-white-dark-backgrounds-smooth-rounded-corners-and-subtle-shadows-typography-should-be-clean-and-modern-e-g-inter-or-similar-sans-serif-all-pages-must-be-fully-responsive-across-mobile-tablet-and-desktop-breakpoints",
+      "title": "Apply a Glassmorphism design system across the entire site using Vibrant Orange (#FF6B2B) and Sky Blue (#38BDF8) as primary accent colors. Use frosted-glass cards (backdrop-filter blur, semi-transparent white/dark backgrounds), smooth rounded corners, and subtle shadows. Typography should be clean and modern (e.g., Inter or similar sans-serif). All pages must be fully responsive across mobile, tablet, and desktop breakpoints.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-home-landing-page-with-a-bold-hero-tagline-bytemeal-zero-hunger-a-short-supporting-subtitle-about-reducing-food-waste-a-donate-food-button-navigating-to-the-donor-form-and-a-get-help-button-navigating-to-the-recipient-ngo-form-include-navigation-links-to-all-main-sections-home-donate-get-help-volunteer-dashboard-use-food-and-delivery-themed-icons-throughout",
+      "title": "Create a Home / Landing page with: a bold hero tagline 'ByteMeal: Zero Hunger', a short supporting subtitle about reducing food waste, a 'Donate Food' button navigating to the Donor Form, and a 'Get Help' button navigating to the Recipient/NGO Form. Include navigation links to all main sections (Home, Donate, Get Help, Volunteer, Dashboard). Use food and delivery themed icons throughout.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-donor-form-page-with-input-fields-food-item-text-quantity-number-unit-donor-id-text-and-expiry-date-date-picker-plus-a-submit-donation-button-on-successful-submission-display-a-green-success-popup-toast-notification-saying-donation-submitted-successfully-store-the-submitted-donation-record-in-the-backend",
+      "title": "Create a Donor Form page with input fields: 'Food Item' (text), 'Quantity' (number + unit), 'Donor ID' (text), and 'Expiry Date' (date picker), plus a 'Submit Donation' button. On successful submission, display a green success popup/toast notification saying 'Donation Submitted Successfully'. Store the submitted donation record in the backend.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-an-assistance-request-form-page-for-recipients-ngos-with-fields-recipient-name-text-number-of-people-number-items-required-textarea-and-delivery-address-textarea-plus-a-submit-request-button-store-submitted-assistance-requests-in-the-backend",
+      "title": "Create an 'Assistance Request Form' page for Recipients/NGOs with fields: 'Recipient Name' (text), 'Number of People' (number), 'Items Required' (textarea), and 'Delivery Address' (textarea), plus a 'Submit Request' button. Store submitted assistance requests in the backend.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-volunteer-registration-page-with-a-form-titled-join-as-a-delivery-partner-fields-full-name-text-email-email-phone-number-text-location-city-text-and-preferred-role-dropdown-with-options-food-collector-delivery-driver-warehouse-volunteer-coordinator-include-a-register-as-volunteer-button-store-volunteer-registrations-in-the-backend",
+      "title": "Create a Volunteer Registration page with a form titled 'Join as a Delivery Partner'. Fields: 'Full Name' (text), 'Email' (email), 'Phone Number' (text), 'Location / City' (text), and 'Preferred Role' (dropdown with options: 'Food Collector', 'Delivery Driver', 'Warehouse Volunteer', 'Coordinator'). Include a 'Register as Volunteer' button. Store volunteer registrations in the backend.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-user-dashboard-page-it-should-display-a-welcome-name-greeting-use-a-hardcoded-or-default-name-if-no-auth-is-implemented-a-your-profile-card-showing-basic-info-name-role-contact-and-an-assigned-tasks-section-listing-sample-tasks-such-as-food-collection-due-today-and-delivery-to-ngo-tomorrow-style-tasks-with-status-indicators-e-g-pending-orange-completed-green",
+      "title": "Create a User Dashboard page. It should display a 'Welcome, [Name]' greeting (use a hardcoded or default name if no auth is implemented), a 'Your Profile' card showing basic info (Name, Role, Contact), and an 'Assigned Tasks' section listing sample tasks such as 'Food Collection – Due Today' and 'Delivery to NGO – Tomorrow'. Style tasks with status indicators (e.g., pending = orange, completed = green).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-render-the-generated-blurred-food-background-image-food-bg-dim-1920x1080-jpg-as-a-full-page-fixed-background-asset-served-from-frontend-public-assets-generated-apply-a-css-blur-and-dark-overlay-over-it-on-all-pages-to-ensure-text-readability",
+      "title": "Render the generated blurred food background image (food-bg.dim_1920x1080.jpg) as a full-page fixed background asset served from frontend/public/assets/generated/. Apply a CSS blur and dark overlay over it on all pages to ensure text readability.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-the-bytemeal-application-must-continue-to-be-built-using-the-supported-stack-react-typescript-for-frontend-motoko-for-backend-note-javascript-python-html-and-css-as-standalone-technologies-cannot-replace-the-current-architecture-javascript-typescript-and-css-via-tailwind-are-already-in-use-within-the-react-framework-and-python-raw-html-are-not-supported-on-this-platform-ensure-all-existing-pages-and-functionality-remain-intact-and-fully-working",
+      "title": "The ByteMeal application must continue to be built using the supported stack (React + TypeScript for frontend, Motoko for backend). Note: JavaScript, Python, HTML, and CSS as standalone technologies cannot replace the current architecture — JavaScript/TypeScript and CSS (via Tailwind) are already in use within the React framework, and Python/raw HTML are not supported on this platform. Ensure all existing pages and functionality remain intact and fully working.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-food-listings-page-that-displays-all-submitted-donations-in-a-card-based-grid-layout-each-card-should-show-food-item-name-quantity-with-unit-donor-id-expiry-date-and-a-status-badge-e-g-available-in-green-fetch-donation-data-from-the-backend-using-the-existing-getdonations-query-style-with-the-existing-glassmorphism-design-system",
+      "title": "Add a 'Food Listings' page that displays all submitted donations in a card-based grid layout. Each card should show: Food Item name, Quantity with unit, Donor ID, Expiry Date, and a status badge (e.g., 'Available' in green). Fetch donation data from the backend using the existing getDonations query. Style with the existing Glassmorphism design system.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-live-statistics-section-to-the-dashboard-page-showing-real-time-counts-total-donations-submitted-total-assistance-requests-and-total-registered-volunteers-fetch-these-counts-from-the-backend-using-the-existing-query-hooks-usegetdonations-usegetassistancerequests-usegetvolunteers-display-each-stat-in-a-styled-glasscard-with-an-icon-numeric-value-and-label",
+      "title": "Add a live statistics section to the Dashboard page showing real-time counts: total donations submitted, total assistance requests, and total registered volunteers. Fetch these counts from the backend using the existing query hooks (useGetDonations, useGetAssistanceRequests, useGetVolunteers). Display each stat in a styled GlassCard with an icon, numeric value, and label.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-the-bytemeal-application-must-continue-to-be-built-using-the-supported-stack-react-typescript-for-frontend-motoko-for-backend-javascript-typescript-and-css-via-tailwind-are-already-in-use-within-the-react-framework-and-python-raw-html-are-not-supported-on-this-platform-ensure-all-existing-pages-and-functionality-remain-intact-and-fully-working",
+      "title": "The ByteMeal application must continue to be built using the supported stack (React + TypeScript for frontend, Motoko for backend). JavaScript/TypeScript and CSS (via Tailwind) are already in use within the React framework, and Python/raw HTML are not supported on this platform. Ensure all existing pages and functionality remain intact and fully working.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-single-file-or-multi-file-standalone-html-css-javascript-version-of-bytemeal-that-runs-directly-in-a-browser-without-any-build-tools-frameworks-or-server-setup-the-standalone-version-must-include-all-existing-pages-as-navigable-sections-or-separate-html-files-home-with-bytemeal-zero-hunger-hero-tagline-donate-food-and-get-help-cta-buttons-platform-stats-and-feature-highlights-donor-form-food-item-quantity-unit-donor-id-expiry-date-fields-with-a-submit-donation-button-and-a-green-success-toast-notification-assistance-request-form-recipient-name-number-of-people-items-required-delivery-address-fields-with-a-submit-request-button-volunteer-registration-form-full-name-email-phone-number-location-city-preferred-role-dropdown-with-options-food-collector-delivery-driver-warehouse-volunteer-coordinator-and-a-register-as-volunteer-button-food-listings-page-card-grid-showing-submitted-donations-stored-in-localstorage-and-user-dashboard-welcome-greeting-profile-card-assigned-tasks-with-status-indicators-and-live-stats-counting-localstorage-entries-all-form-submissions-must-be-stored-and-retrieved-using-localstorage-so-data-persists-across-page-reloads-without-a-backend",
+      "title": "Create a single-file or multi-file standalone HTML + CSS + JavaScript version of ByteMeal that runs directly in a browser without any build tools, frameworks, or server setup. The standalone version must include all existing pages as navigable sections or separate HTML files: Home (with 'ByteMeal: Zero Hunger' hero tagline, 'Donate Food' and 'Get Help' CTA buttons, platform stats, and feature highlights), Donor Form (Food Item, Quantity + unit, Donor ID, Expiry Date fields with a 'Submit Donation' button and a green success toast notification), Assistance Request Form (Recipient Name, Number of People, Items Required, Delivery Address fields with a 'Submit Request' button), Volunteer Registration Form (Full Name, Email, Phone Number, Location/City, Preferred Role dropdown with options: Food Collector, Delivery Driver, Warehouse Volunteer, Coordinator, and a 'Register as Volunteer' button), Food Listings page (card grid showing submitted donations stored in localStorage), and User Dashboard (Welcome greeting, Profile card, Assigned Tasks with status indicators, and live stats counting localStorage entries). All form submissions must be stored and retrieved using localStorage so data persists across page reloads without a backend.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-the-bytemeal-glassmorphism-design-system-to-the-standalone-html-css-js-version-use-vibrant-orange-ff6b2b-and-sky-blue-38bdf8-as-primary-accent-colors-frosted-glass-cards-backdrop-filter-blur-semi-transparent-white-dark-backgrounds-smooth-rounded-corners-subtle-box-shadows-and-inter-or-a-similar-clean-sans-serif-font-loaded-via-google-fonts-cdn-apply-a-dark-overlay-with-backdrop-blur-over-a-food-themed-gradient-or-solid-dark-background-on-all-pages-to-ensure-text-readability-all-pages-must-be-fully-responsive-across-mobile-tablet-and-desktop-breakpoints-using-css-media-queries",
+      "title": "Apply the ByteMeal Glassmorphism design system to the standalone HTML/CSS/JS version: use Vibrant Orange (#FF6B2B) and Sky Blue (#38BDF8) as primary accent colors, frosted-glass cards (backdrop-filter: blur, semi-transparent white/dark backgrounds), smooth rounded corners, subtle box shadows, and Inter or a similar clean sans-serif font loaded via Google Fonts CDN. Apply a dark overlay with backdrop blur over a food-themed gradient or solid dark background on all pages to ensure text readability. All pages must be fully responsive across mobile, tablet, and desktop breakpoints using CSS media queries.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-standalone-html-css-js-version-of-bytemeal-located-in-frontend-standalone-is-complete-self-contained-and-fully-functional-as-a-downloadable-package-all-pages-index-html-home-donor-form-html-assistance-form-html-volunteer-form-html-food-listings-html-and-dashboard-html-must-be-fully-linked-to-the-shared-styles-css-and-script-js-files-using-relative-paths-so-that-the-entire-frontend-standalone-folder-can-be-downloaded-and-opened-directly-in-a-browser-without-any-server-build-tools-or-framework",
+      "title": "Ensure the standalone HTML/CSS/JS version of ByteMeal (located in frontend/standalone/) is complete, self-contained, and fully functional as a downloadable package. All pages — index.html (Home), donor-form.html, assistance-form.html, volunteer-form.html, food-listings.html, and dashboard.html — must be fully linked to the shared styles.css and script.js files using relative paths, so that the entire frontend/standalone/ folder can be downloaded and opened directly in a browser without any server, build tools, or framework.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-standalone-styles-css-comprehensively-covers-all-pages-with-the-bytemeal-glassmorphism-design-system-vibrant-orange-ff6b2b-and-sky-blue-38bdf8-accent-colors-frosted-glass-card-styles-backdrop-filter-blur-semi-transparent-backgrounds-smooth-rounded-corners-subtle-box-shadows-a-dark-food-themed-gradient-background-on-all-pages-inter-font-loaded-from-google-fonts-cdn-and-full-mobile-tablet-desktop-responsiveness-via-css-media-queries",
+      "title": "Ensure the standalone styles.css comprehensively covers all pages with the ByteMeal Glassmorphism design system: Vibrant Orange (#FF6B2B) and Sky Blue (#38BDF8) accent colors, frosted-glass card styles (backdrop-filter: blur, semi-transparent backgrounds), smooth rounded corners, subtle box shadows, a dark food-themed gradient background on all pages, Inter font loaded from Google Fonts CDN, and full mobile/tablet/desktop responsiveness via CSS media queries.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-standalone-script-js-file-provides-all-shared-javascript-utilities-needed-across-all-pages-hamburger-navigation-toggle-toast-notification-display-localstorage-read-write-helpers-for-donations-assistance-requests-and-volunteer-records-form-validation-helpers-and-button-loading-state-management-each-html-page-must-include-a-script-block-that-calls-the-appropriate-functions-for-its-own-page-logic-form-submission-data-rendering-stats-counting",
+      "title": "Ensure the standalone script.js file provides all shared JavaScript utilities needed across all pages: hamburger navigation toggle, toast notification display, localStorage read/write helpers for donations, assistance requests, and volunteer records, form validation helpers, and button loading state management. Each HTML page must include a script block that calls the appropriate functions for its own page logic (form submission, data rendering, stats counting).",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Home Page with 'ByteMeal: Zero Hunger' tagline and 'Donate Food'/'Get Help' buttons",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Donor Form with Food Item, Quantity, Donor ID, Expiry Date fields and success popup on submission",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Recipient/NGO Assistance Request Form with Recipient Name, Number of People, Items Required, Delivery Address",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Volunteer Registration Form with Preferred Role dropdown",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "User Dashboard showing Welcome message, Profile, and Assigned Tasks",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Implement backend storage for donation records, assistance requests, and volunteer registrations using Motoko stable data structures. Expose query and update functions: addDonation, getDonations, addAssistanceRequest, getAssistanceRequests, addVolunteer, getVolunteers.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Create a standalone plain HTML + CSS + JavaScript version of ByteMeal that can be run directly in a browser without any build tools, React, or Motoko",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "ByteMeal",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

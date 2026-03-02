@@ -1,0 +1,64 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-ensure-the-standalone-html-css-js-version-of-bytemeal-located-in-frontend-standalone-is-complete-self-contained-and-fully-functional-as-a-downloadable-package-all-pages-index-html-home-donor-form-html-assistance-form-html-volunteer-form-html-food-listings-html-and-dashboard-html-must-be-fully-linked-to-the-shared-styles-css-and-script-js-files-using-relative-paths-so-that-the-entire-frontend-standalone-folder-can-be-downloaded-and-opened-directly-in-a-browser-without-any-server-build-tools-or-framework",
+      "featureTitle": "Ensure the standalone HTML/CSS/JS version of ByteMeal (located in frontend/standalone/) is complete, self-contained, and fully functional as a downloadable package. All pages — index.html (Home), donor-form.html, assistance-form.html, volunteer-form.html, food-listings.html, and dashboard.html — must be fully linked to the shared styles.css and script.js files using relative paths, so that the entire frontend/standalone/ folder can be downloaded and opened directly in a browser without any server, build tools, or framework.",
+      "files": [
+        "frontend/standalone/assistance-form.html",
+        "frontend/standalone/dashboard.html",
+        "frontend/standalone/donor-form.html",
+        "frontend/standalone/food-listings.html",
+        "frontend/standalone/index.html",
+        "frontend/standalone/volunteer-form.html"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-standalone-styles-css-comprehensively-covers-all-pages-with-the-bytemeal-glassmorphism-design-system-vibrant-orange-ff6b2b-and-sky-blue-38bdf8-accent-colors-frosted-glass-card-styles-backdrop-filter-blur-semi-transparent-backgrounds-smooth-rounded-corners-subtle-box-shadows-a-dark-food-themed-gradient-background-on-all-pages-inter-font-loaded-from-google-fonts-cdn-and-full-mobile-tablet-desktop-responsiveness-via-css-media-queries",
+      "featureTitle": "Ensure the standalone styles.css comprehensively covers all pages with the ByteMeal Glassmorphism design system: Vibrant Orange (#FF6B2B) and Sky Blue (#38BDF8) accent colors, frosted-glass card styles (backdrop-filter: blur, semi-transparent backgrounds), smooth rounded corners, subtle box shadows, a dark food-themed gradient background on all pages, Inter font loaded from Google Fonts CDN, and full mobile/tablet/desktop responsiveness via CSS media queries.",
+      "files": [
+        "frontend/standalone/styles.css"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-16"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-standalone-script-js-file-provides-all-shared-javascript-utilities-needed-across-all-pages-hamburger-navigation-toggle-toast-notification-display-localstorage-read-write-helpers-for-donations-assistance-requests-and-volunteer-records-form-validation-helpers-and-button-loading-state-management-each-html-page-must-include-a-script-block-that-calls-the-appropriate-functions-for-its-own-page-logic-form-submission-data-rendering-stats-counting",
+      "featureTitle": "Ensure the standalone script.js file provides all shared JavaScript utilities needed across all pages: hamburger navigation toggle, toast notification display, localStorage read/write helpers for donations, assistance requests, and volunteer records, form validation helpers, and button loading state management. Each HTML page must include a script block that calls the appropriate functions for its own page logic (form submission, data rendering, stats counting).",
+      "files": [
+        "frontend/standalone/script.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-17"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

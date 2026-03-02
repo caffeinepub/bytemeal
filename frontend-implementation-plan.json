@@ -1,0 +1,89 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Improve and consolidate standalone HTML/CSS/JS downloadable version",
+  "requirements": [
+    {
+      "id": "REQ-15",
+      "summary": "Ensure the standalone HTML/CSS/JS version is complete, self-contained, and fully functional as a downloadable package with all pages properly linked and working via file:// protocol",
+      "acceptanceCriteria": [
+        "All standalone HTML pages link correctly to styles.css and script.js via relative paths",
+        "Opening index.html directly in a browser (file:// protocol) renders the full ByteMeal home page with correct styles",
+        "Navigation links between all pages work correctly when the folder is opened locally",
+        "All form submissions (Donor, Assistance Request, Volunteer) store data to localStorage and show toast notifications",
+        "Food Listings page reads from localStorage and displays submitted donations as cards",
+        "Dashboard page shows live stats counted from localStorage entries",
+        "No React, Node.js, or build tool dependency exists in the standalone folder"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/standalone/index.html",
+          "operation": "modify",
+          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links to all pages (donor-form.html, assistance-form.html, volunteer-form.html, food-listings.html, dashboard.html) use correct relative paths. Add inline script block to initialize homepage stats from localStorage using utility functions from script.js."
+        },
+        {
+          "path": "frontend/standalone/donor-form.html",
+          "operation": "modify",
+          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add inline script block that handles form submission by calling script.js utilities to save donation data to localStorage, show toast notification, and reset form."
+        },
+        {
+          "path": "frontend/standalone/assistance-form.html",
+          "operation": "modify",
+          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add inline script block that handles form submission by calling script.js utilities to save assistance request data to localStorage, show toast notification, and reset form."
+        },
+        {
+          "path": "frontend/standalone/volunteer-form.html",
+          "operation": "modify",
+          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add inline script block that handles form submission by calling script.js utilities to save volunteer data to localStorage, show toast notification, and reset form."
+        },
+        {
+          "path": "frontend/standalone/food-listings.html",
+          "operation": "modify",
+          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add or update inline script block that reads donation data from localStorage using script.js utilities and dynamically renders donation cards with all relevant fields (item name, quantity, expiry, location, contact)."
+        },
+        {
+          "path": "frontend/standalone/dashboard.html",
+          "operation": "modify",
+          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add or update inline script block that counts localStorage entries (donations, assistance requests, volunteers) using script.js utilities and updates the dashboard stat cards with live counts."
+        }
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "summary": "Ensure styles.css comprehensively covers all pages with ByteMeal Glassmorphism design system including vibrant colors, frosted-glass effects, dark food-themed gradient background, Inter font, and full responsive layouts",
+      "acceptanceCriteria": [
+        "styles.css imports Inter font from Google Fonts CDN",
+        "All glassmorphism card styles are present and applied across all pages",
+        "Orange and Sky Blue accent colors are used for buttons, badges, and highlights",
+        "Dark background with overlay is applied on all pages ensuring text readability",
+        "Responsive layouts work correctly at 375px (mobile), 768px (tablet), and 1280px (desktop) viewports"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/standalone/styles.css",
+          "operation": "modify",
+          "description": "Ensure Google Fonts CDN import for Inter font family is present at the top. Verify and enhance CSS custom properties for ByteMeal brand colors (Vibrant Orange #FF6B2B, Sky Blue #38BDF8). Ensure all glassmorphism card styles include backdrop-filter: blur, semi-transparent backgrounds with rgba, rounded corners, and subtle box shadows. Add or verify dark food-themed gradient background styles with overlay for all pages. Verify and enhance responsive media queries for mobile (375px), tablet (768px), and desktop (1280px) breakpoints covering navigation, forms, cards, grids, and typography. Ensure all button styles (.btn-orange, .btn-blue) use the accent colors. Verify toast notification styles for visibility and accessibility."
+        }
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "summary": "Ensure script.js provides all shared JavaScript utilities including navigation toggle, toast notifications, localStorage helpers, form validation, and button loading state management for use across all standalone pages",
+      "acceptanceCriteria": [
+        "script.js exports or defines globally accessible utility functions",
+        "Toast notifications appear correctly on form submission success",
+        "Form data is saved to localStorage on submission",
+        "Food Listings page dynamically renders donation cards from localStorage",
+        "Dashboard stats update to reflect current localStorage record counts",
+        "Hamburger menu opens and closes correctly on mobile"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/standalone/script.js",
+          "operation": "modify",
+          "description": "Ensure globally accessible utility functions are defined: toggleMobileNav() for hamburger menu, showToast(message, type) for toast notifications, validateForm(formData) for client-side validation, setButtonLoading(button, isLoading) for loading states. Implement localStorage helpers: saveDonation(data), saveAssistanceRequest(data), saveVolunteer(data), getDonations(), getAssistanceRequests(), getVolunteers(), getStats() that return counts of each entity type. Ensure all functions handle edge cases (empty localStorage, invalid JSON) gracefully and return appropriate defaults. Add timestamp generation for new records. Ensure all utility functions are invokable from inline script blocks in HTML pages."
+        }
+      ]
+    }
+  ]
+}

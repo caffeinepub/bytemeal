@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link active">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="form-main">
+    <div class="container">
+      <div class="form-wrapper">
+        <div class="glass-card form-card">
+          <div class="form-header">
+            <div class="form-icon">🙋</div>
+            <h1 class="form-title">Become a Volunteer</h1>
+            <p class="form-subtitle">Join our network of dedicated volunteers and help deliver food to those who need it most.</p>
+          </div>
+
+          <form id="volunteerForm" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="fullName">Full Name *</label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="form-input"
+                placeholder="Your full name"
+                required
+              />
+              <span class="field-error" id="fullNameError"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="email">Email Address *</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  placeholder="your@email.com"
+                  required
+                />
+                <span class="field-error" id="emailError"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="phone">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="form-input"
+                  placeholder="+91 XXXXX XXXXX"
+                  required
+                />
+                <span class="field-error" id="phoneError"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="location">Location / City *</label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                class="form-input"
+                placeholder="Your city or area"
+                required
+              />
+              <span class="field-error" id="locationError"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="preferredRole">Preferred Role *</label>
+                <select id="preferredRole" name="preferredRole" class="form-input form-select" required>
+                  <option value="">Select a role</option>
+                  <option value="delivery">Food Delivery</option>
+                  <option value="sorting">Food Sorting</option>
+                  <option value="coordination">Coordination</option>
+                  <option value="awareness">Awareness Campaigns</option>
+                  <option value="tech">Tech Support</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="field-error" id="preferredRoleError"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="availability">Availability *</label>
+                <select id="availability" name="availability" class="form-input form-select" required>
+                  <option value="">Select availability</option>
+                  <option value="weekdays">Weekdays</option>
+                  <option value="weekends">Weekends</option>
+                  <option value="both">Both Weekdays & Weekends</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+                <span class="field-error" id="availabilityError"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="message">Why do you want to volunteer?</label>
+              <textarea
+                id="message"
+                name="message"
+                class="form-input form-textarea"
+                placeholder="Tell us a bit about yourself and your motivation..."
+                rows="4"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-orange btn-full" id="submitBtn">
+              <span id="submitText">Register as Volunteer</span>
+              <span id="submitSpinner" class="spinner hidden"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. Built with ❤️ using
+          <a href="https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=bytemeal-standalone" target="_blank" rel="noopener" class="footer-link">caffeine.ai</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    document.getElementById('volunteerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      var fullName = document.getElementById('fullName').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+      var location = document.getElementById('location').value.trim();
+      var preferredRole = document.getElementById('preferredRole').value;
+      var availability = document.getElementById('availability').value;
+      var message = document.getElementById('message').value.trim();
+
+      var valid = true;
+
+      if (!fullName) { showFieldError('fullNameError', 'Full name is required.'); valid = false; }
+      if (!email) { showFieldError('emailError', 'Email is required.'); valid = false; }
+      else if (!isValidEmail(email)) { showFieldError('emailError', 'Please enter a valid email address.'); valid = false; }
+      if (!phone) { showFieldError('phoneError', 'Phone number is required.'); valid = false; }
+      if (!location) { showFieldError('locationError', 'Location is required.'); valid = false; }
+      if (!preferredRole) { showFieldError('preferredRoleError', 'Please select a preferred role.'); valid = false; }
+      if (!availability) { showFieldError('availabilityError', 'Please select your availability.'); valid = false; }
+
+      if (!valid) return;
+
+      var btn = document.getElementById('submitBtn');
+      setButtonLoading(btn, true);
+
+      setTimeout(function () {
+        saveVolunteer({
+          fullName: fullName,
+          email: email,
+          phone: phone,
+          location: location,
+          preferredRole: preferredRole,
+          availability: availability,
+          message: message
+        });
+
+        setButtonLoading(btn, false);
+        showToast('🙌 Welcome to the ByteMeal volunteer family! We\'ll be in touch soon.', 'success');
+        document.getElementById('volunteerForm').reset();
+      }, 800);
+    });
+  </script>
+</body>
+</html>

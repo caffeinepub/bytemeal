@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate Food – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link active">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="form-main">
+    <div class="container">
+      <div class="form-wrapper">
+        <div class="glass-card form-card">
+          <div class="form-header">
+            <div class="form-icon">🍽️</div>
+            <h1 class="form-title">Donate Food</h1>
+            <p class="form-subtitle">Share your surplus food and help fight hunger in your community.</p>
+          </div>
+
+          <form id="donorForm" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="foodItem">Food Item *</label>
+              <input
+                type="text"
+                id="foodItem"
+                name="foodItem"
+                class="form-input"
+                placeholder="e.g., Rice, Bread, Vegetables"
+                required
+              />
+              <span class="field-error" id="foodItemError"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="quantity">Quantity *</label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  class="form-input"
+                  placeholder="e.g., 5"
+                  min="1"
+                  required
+                />
+                <span class="field-error" id="quantityError"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="unit">Unit *</label>
+                <select id="unit" name="unit" class="form-input form-select" required>
+                  <option value="">Select unit</option>
+                  <option value="kg">Kilograms (kg)</option>
+                  <option value="lbs">Pounds (lbs)</option>
+                  <option value="servings">Servings</option>
+                  <option value="boxes">Boxes</option>
+                  <option value="packets">Packets</option>
+                  <option value="liters">Liters</option>
+                  <option value="pieces">Pieces</option>
+                </select>
+                <span class="field-error" id="unitError"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donorId">Donor Name / ID *</label>
+              <input
+                type="text"
+                id="donorId"
+                name="donorId"
+                class="form-input"
+                placeholder="Your name or organization"
+                required
+              />
+              <span class="field-error" id="donorIdError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="expiryDate">Expiry Date *</label>
+              <input
+                type="date"
+                id="expiryDate"
+                name="expiryDate"
+                class="form-input"
+                required
+              />
+              <span class="field-error" id="expiryDateError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="pickupLocation">Pickup Location *</label>
+              <input
+                type="text"
+                id="pickupLocation"
+                name="pickupLocation"
+                class="form-input"
+                placeholder="Full address for pickup"
+                required
+              />
+              <span class="field-error" id="pickupLocationError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactInfo">Contact Info</label>
+              <input
+                type="text"
+                id="contactInfo"
+                name="contactInfo"
+                class="form-input"
+                placeholder="Phone or email (optional)"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="notes">Additional Notes</label>
+              <textarea
+                id="notes"
+                name="notes"
+                class="form-input form-textarea"
+                placeholder="Any special instructions or details..."
+                rows="3"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-orange btn-full" id="submitBtn">
+              <span id="submitText">Submit Donation</span>
+              <span id="submitSpinner" class="spinner hidden"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. Built with ❤️ using
+          <a href="https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=bytemeal-standalone" target="_blank" rel="noopener" class="footer-link">caffeine.ai</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    // Set min date for expiry to today
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('expiryDate').setAttribute('min', today);
+
+    document.getElementById('donorForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      var foodItem = document.getElementById('foodItem').value.trim();
+      var quantity = document.getElementById('quantity').value.trim();
+      var unit = document.getElementById('unit').value;
+      var donorId = document.getElementById('donorId').value.trim();
+      var expiryDate = document.getElementById('expiryDate').value;
+      var pickupLocation = document.getElementById('pickupLocation').value.trim();
+      var contactInfo = document.getElementById('contactInfo').value.trim();
+      var notes = document.getElementById('notes').value.trim();
+
+      var valid = true;
+
+      if (!foodItem) { showFieldError('foodItemError', 'Food item is required.'); valid = false; }
+      if (!quantity || isNaN(quantity) || Number(quantity) < 1) { showFieldError('quantityError', 'Enter a valid quantity.'); valid = false; }
+      if (!unit) { showFieldError('unitError', 'Please select a unit.'); valid = false; }
+      if (!donorId) { showFieldError('donorIdError', 'Donor name/ID is required.'); valid = false; }
+      if (!expiryDate) { showFieldError('expiryDateError', 'Expiry date is required.'); valid = false; }
+      if (!pickupLocation) { showFieldError('pickupLocationError', 'Pickup location is required.'); valid = false; }
+
+      if (!valid) return;
+
+      var btn = document.getElementById('submitBtn');
+      setButtonLoading(btn, true);
+
+      setTimeout(function () {
+        saveDonation({
+          foodItem: foodItem,
+          quantity: quantity,
+          unit: unit,
+          donorId: donorId,
+          expiryDate: expiryDate,
+          pickupLocation: pickupLocation,
+          contactInfo: contactInfo,
+          notes: notes
+        });
+
+        setButtonLoading(btn, false);
+        showToast('🎉 Donation submitted successfully! Thank you for your generosity.', 'success');
+        document.getElementById('donorForm').reset();
+      }, 800);
+    });
+  </script>
+</body>
+</html>

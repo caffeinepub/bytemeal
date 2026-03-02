@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Listings – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link active">Food Listings</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="listings-main">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">Available Food Listings</h1>
+        <p class="page-subtitle">Browse available food donations in your area</p>
+      </div>
+
+      <!-- Search & Filter Bar -->
+      <div class="glass-card filter-bar">
+        <div class="filter-row">
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              class="form-input search-input"
+              placeholder="Search food items..."
+              oninput="filterListings()"
+            />
+          </div>
+          <select id="filterStatus" class="form-input form-select filter-select" onchange="filterListings()">
+            <option value="all">All Listings</option>
+            <option value="available">Available</option>
+            <option value="claimed">Claimed</option>
+          </select>
+          <a href="donor-form.html" class="btn-orange btn-sm">+ Add Donation</a>
+        </div>
+      </div>
+
+      <!-- Count Badge -->
+      <div class="listings-count">
+        <span id="listingsCount" class="count-badge">0 listings</span>
+      </div>
+
+      <!-- Listings Grid -->
+      <div class="listings-grid" id="listingsGrid">
+        <!-- Cards rendered by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-icon">🍽️</div>
+        <h3 class="empty-title">No food listings yet</h3>
+        <p class="empty-desc">Be the first to donate food in your community!</p>
+        <a href="donor-form.html" class="btn-orange">Donate Food Now</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. Built with ❤️ using
+          <a href="https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=bytemeal-standalone" target="_blank" rel="noopener" class="footer-link">caffeine.ai</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    var allDonations = [];
+
+    function getDaysUntilExpiry(expiryDate) {
+      if (!expiryDate) return null;
+      var today = new Date();
+      today.setHours(0, 0, 0, 0);
+      var expiry = new Date(expiryDate);
+      var diff = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+      return diff;
+    }
+
+    function getExpiryBadge(expiryDate) {
+      var days = getDaysUntilExpiry(expiryDate);
+      if (days === null) return '';
+      if (days < 0) return '<span class="badge badge-expired">Expired</span>';
+      if (days === 0) return '<span class="badge badge-urgent">Expires Today</span>';
+      if (days <= 2) return '<span class="badge badge-urgent">Expires in ' + days + ' day' + (days > 1 ? 's' : '') + '</span>';
+      if (days <= 7) return '<span class="badge badge-soon">Expires in ' + days + ' days</span>';
+      return '<span class="badge badge-fresh">Fresh – ' + days + ' days left</span>';
+    }
+
+    function renderListings(donations) {
+      var grid = document.getElementById('listingsGrid');
+      var emptyState = document.getElementById('emptyState');
+      var countBadge = document.getElementById('listingsCount');
+
+      if (!donations || donations.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        countBadge.textContent = '0 listings';
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      countBadge.textContent = donations.length + ' listing' + (donations.length !== 1 ? 's' : '');
+
+      grid.innerHTML = donations.map(function (d, i) {
+        var statusClass = d.status === 'claimed' ? 'badge-claimed' : 'badge-available';
+        var statusLabel = d.status === 'claimed' ? 'Claimed' : 'Available';
+        var expiryBadge = getExpiryBadge(d.expiryDate);
+        var formattedDate = d.expiryDate ? new Date(d.expiryDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A';
+        var formattedTime = d.timestamp ? new Date(d.timestamp).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
+
+        return '<div class="glass-card listing-card" data-index="' + i + '">' +
+          '<div class="listing-card-header">' +
+            '<div class="listing-food-icon">🍱</div>' +
+            '<div class="listing-badges">' +
+              '<span class="badge ' + statusClass + '">' + statusLabel + '</span>' +
+              expiryBadge +
+            '</div>' +
+          '</div>' +
+          '<h3 class="listing-title">' + escapeHtml(d.foodItem || 'Food Item') + '</h3>' +
+          '<div class="listing-details">' +
+            '<div class="listing-detail"><span class="detail-icon">📦</span><span>' + escapeHtml(d.quantity + ' ' + (d.unit || '')) + '</span></div>' +
+            '<div class="listing-detail"><span class="detail-icon">📅</span><span>Expires: ' + formattedDate + '</span></div>' +
+            '<div class="listing-detail"><span class="detail-icon">📍</span><span>' + escapeHtml(d.pickupLocation || 'Location not specified') + '</span></div>' +
+            (d.donorId ? '<div class="listing-detail"><span class="detail-icon">👤</span><span>' + escapeHtml(d.donorId) + '</span></div>' : '') +
+            (d.contactInfo ? '<div class="listing-detail"><span class="detail-icon">📞</span><span>' + escapeHtml(d.contactInfo) + '</span></div>' : '') +
+          '</div>' +
+          (d.notes ? '<p class="listing-notes">' + escapeHtml(d.notes) + '</p>' : '') +
+          '<div class="listing-footer">' +
+            (formattedTime ? '<span class="listing-date">Listed: ' + formattedTime + '</span>' : '') +
+            (d.status !== 'claimed' ?
+              '<button class="btn-blue btn-sm" onclick="claimDonation(' + i + ')">Claim</button>' :
+              '<button class="btn-sm btn-disabled" disabled>Claimed</button>'
+            ) +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function filterListings() {
+      var search = document.getElementById('searchInput').value.toLowerCase();
+      var status = document.getElementById('filterStatus').value;
+
+      var filtered = allDonations.filter(function (d) {
+        var matchSearch = !search ||
+          (d.foodItem && d.foodItem.toLowerCase().includes(search)) ||
+          (d.pickupLocation && d.pickupLocation.toLowerCase().includes(search)) ||
+          (d.donorId && d.donorId.toLowerCase().includes(search));
+        var matchStatus = status === 'all' ||
+          (status === 'available' && d.status !== 'claimed') ||
+          (status === 'claimed' && d.status === 'claimed');
+        return matchSearch && matchStatus;
+      });
+
+      renderListings(filtered);
+    }
+
+    function claimDonation(index) {
+      var donations = getDonations();
+      if (donations[index]) {
+        donations[index].status = 'claimed';
+        try {
+          localStorage.setItem('donations', JSON.stringify(donations));
+        } catch (e) {}
+        allDonations = donations;
+        filterListings();
+        showToast('✅ Food claimed successfully! Please coordinate pickup with the donor.', 'success');
+      }
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function () {
+      // Seed sample data if empty
+      var existing = getDonations();
+      if (existing.length === 0) {
+        var samples = [
+          { foodItem: 'Basmati Rice', quantity: '10', unit: 'kg', donorId: 'Sharma Family', expiryDate: getFutureDate(7), pickupLocation: 'Sector 15, Noida', contactInfo: '+91 98765 43210', notes: 'Freshly packed, sealed bags.', status: 'available', timestamp: new Date().toISOString() },
+          { foodItem: 'Fresh Vegetables', quantity: '5', unit: 'kg', donorId: 'Green Farms', expiryDate: getFutureDate(2), pickupLocation: 'Lajpat Nagar, Delhi', contactInfo: '+91 87654 32109', notes: 'Mixed seasonal vegetables.', status: 'available', timestamp: new Date().toISOString() },
+          { foodItem: 'Whole Wheat Bread', quantity: '20', unit: 'pieces', donorId: 'City Bakery', expiryDate: getFutureDate(1), pickupLocation: 'Connaught Place, Delhi', contactInfo: '', notes: 'Baked fresh this morning.', status: 'available', timestamp: new Date().toISOString() },
+          { foodItem: 'Dal (Lentils)', quantity: '8', unit: 'kg', donorId: 'Gupta Household', expiryDate: getFutureDate(30), pickupLocation: 'Dwarka Sector 6, Delhi', contactInfo: '+91 76543 21098', notes: '', status: 'available', timestamp: new Date().toISOString() },
+          { foodItem: 'Cooked Biryani', quantity: '50', unit: 'servings', donorId: 'Wedding Caterers', expiryDate: getFutureDate(0), pickupLocation: 'Vasant Kunj, Delhi', contactInfo: '+91 65432 10987', notes: 'Must be picked up today.', status: 'available', timestamp: new Date().toISOString() },
+          { foodItem: 'Milk Packets', quantity: '12', unit: 'liters', donorId: 'Dairy Fresh', expiryDate: getFutureDate(3), pickupLocation: 'Rohini Sector 3, Delhi', contactInfo: '', notes: 'Pasteurized full-cream milk.', status: 'claimed', timestamp: new Date().toISOString() }
+        ];
+        try {
+          localStorage.setItem('donations', JSON.stringify(samples));
+        } catch (e) {}
+      }
+
+      allDonations = getDonations();
+      filterListings();
+    });
+
+    function getFutureDate(days) {
+      var d = new Date();
+      d.setDate(d.getDate() + days);
+      return d.toISOString().split('T')[0];
+    }
+  </script>
+</body>
+</html>

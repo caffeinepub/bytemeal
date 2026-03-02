@@ -1,0 +1,88 @@
+{
+  "kind": "build_request",
+  "title": "Improve and consolidate standalone HTML/CSS/JS downloadable version",
+  "projectName": "ByteMeal",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-15",
+      "text": "Ensure the standalone HTML/CSS/JS version of ByteMeal (located in frontend/standalone/) is complete, self-contained, and fully functional as a downloadable package. All pages — index.html (Home), donor-form.html, assistance-form.html, volunteer-form.html, food-listings.html, and dashboard.html — must be fully linked to the shared styles.css and script.js files using relative paths, so that the entire frontend/standalone/ folder can be downloaded and opened directly in a browser without any server, build tools, or framework.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "mai css JavaScript HTML ka wala code he chahiye",
+          "Download mea pura download ho raha hu"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All standalone HTML pages link correctly to styles.css and script.js via relative paths",
+        "Opening index.html directly in a browser (file:// protocol) renders the full ByteMeal home page with correct styles",
+        "Navigation links between all pages work correctly when the folder is opened locally",
+        "All form submissions (Donor, Assistance Request, Volunteer) store data to localStorage and show toast notifications",
+        "Food Listings page reads from localStorage and displays submitted donations as cards",
+        "Dashboard page shows live stats counted from localStorage entries",
+        "No React, Node.js, or build tool dependency exists in the standalone folder"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Ensure the standalone styles.css comprehensively covers all pages with the ByteMeal Glassmorphism design system: Vibrant Orange (#FF6B2B) and Sky Blue (#38BDF8) accent colors, frosted-glass card styles (backdrop-filter: blur, semi-transparent backgrounds), smooth rounded corners, subtle box shadows, a dark food-themed gradient background on all pages, Inter font loaded from Google Fonts CDN, and full mobile/tablet/desktop responsiveness via CSS media queries.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "css JavaScript HTML ka wala code he chahiye"
+        ]
+      },
+      "acceptanceCriteria": [
+        "styles.css imports Inter font from Google Fonts CDN",
+        "All glassmorphism card styles are present and applied across all pages",
+        "Orange and Sky Blue accent colors are used for buttons, badges, and highlights",
+        "Dark background with overlay is applied on all pages ensuring text readability",
+        "Responsive layouts work correctly at 375px (mobile), 768px (tablet), and 1280px (desktop) viewports"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "text": "Ensure the standalone script.js file provides all shared JavaScript utilities needed across all pages: hamburger navigation toggle, toast notification display, localStorage read/write helpers for donations, assistance requests, and volunteer records, form validation helpers, and button loading state management. Each HTML page must include a script block that calls the appropriate functions for its own page logic (form submission, data rendering, stats counting).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "css JavaScript HTML ka wala code he chahiye"
+        ]
+      },
+      "acceptanceCriteria": [
+        "script.js exports or defines globally accessible utility functions",
+        "Toast notifications appear correctly on form submission success",
+        "Form data is saved to localStorage on submission",
+        "Food Listings page dynamically renders donation cards from localStorage",
+        "Dashboard stats update to reflect current localStorage record counts",
+        "Hamburger menu opens and closes correctly on mobile"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify any files outside of frontend/standalone/",
+    "Do not use React, TypeScript, or any build tools in the standalone version",
+    "All standalone pages must work when opened via the file:// protocol in a browser",
+    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui"
+  ],
+  "nonGoals": [
+    "Modifying the React/TypeScript frontend application",
+    "Modifying the Motoko backend",
+    "Adding new pages or features not already present in the existing standalone version",
+    "Integrating the standalone version with any backend or API"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
