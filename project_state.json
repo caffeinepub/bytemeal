@@ -1,12 +1,13 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
-  "summary": "ByteMeal is a professional food waste management website with a Glassmorphism UI (blurred food background, Vibrant Orange and Sky Blue). It includes a Home Page with tagline and CTA buttons, a Donor Form with submission popup, a Recipient/NGO Assistance Request Form, a Volunteer Registration Form, and a simple User Dashboard. The user has requested a standalone plain HTML + CSS + JavaScript version of the site that can be run directly in a browser without any build tools or framework setup.",
+  "projectStateVersion": 21,
+  "summary": "ByteMeal is a food waste management website focused on three core forms: Donor Registration Form, NGO Registration Form, and Volunteer Registration Form. After each form submission, a success/failure notification is shown. NGOs that collect food can mark donations as 'Accepted' or 'Collected'. The User Dashboard and live user/stats counters have been removed as the user no longer wants them. The site retains Glassmorphism UI (blurred food background, Vibrant Orange and Sky Blue).",
   "architectural_notes": [
     "Glassmorphism UI with blurred food background; primary colors: Vibrant Orange and Sky Blue",
     "Fully responsive layout with high-quality food and delivery icons",
     "Tech stack: JavaScript, Python, HTML, CSS (as requested by user)",
-    "User requested a standalone HTML/CSS/JS version runnable directly in a browser without any framework or build tool"
+    "User requested a standalone HTML/CSS/JS version runnable directly in a browser without any framework or build tool",
+    "User wants only 3 core forms: Donor Form, NGO Registration Form, Volunteer Registration Form — no dashboard stats or user count displays"
   ],
   "known_issues": [],
   "isFixRequest": false,
@@ -138,6 +139,142 @@
         "REQ-17"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-an-ngo-registration-page-to-the-react-app-with-a-form-containing-fields-ngo-name-text-contact-person-text-email-email-phone-number-text-address-textarea-and-type-of-assistance-needed-dropdown-with-options-food-distribution-shelter-medical-aid-education-general-relief-include-a-register-ngo-button-on-successful-submission-display-a-green-toast-notification-saying-ngo-registered-successfully-store-ngo-registration-records-in-the-backend-using-a-new-motoko-stable-array-and-expose-addngo-getngos-query-and-update-functions-add-a-navigation-link-ngo-register-to-the-existing-navigation-component-and-configure-a-new-route-in-app-tsx",
+      "title": "Add an 'NGO Registration' page to the React app with a form containing fields: 'NGO Name' (text), 'Contact Person' (text), 'Email' (email), 'Phone Number' (text), 'Address' (textarea), and 'Type of Assistance Needed' (dropdown with options: 'Food Distribution', 'Shelter', 'Medical Aid', 'Education', 'General Relief'). Include a 'Register NGO' button. On successful submission, display a green toast notification saying 'NGO Registered Successfully'. Store NGO registration records in the backend using a new Motoko stable array and expose addNGO / getNGOs query and update functions. Add a navigation link 'NGO Register' to the existing Navigation component and configure a new route in App.tsx.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-ngo-registration-page-to-the-standalone-html-css-js-version-at-frontend-standalone-ngo-registration-html-the-form-must-include-fields-ngo-name-contact-person-email-phone-number-address-and-type-of-assistance-needed-dropdown-use-the-shared-styles-css-and-script-js-store-submitted-ngo-records-in-localstorage-under-the-key-bytemeal-ngos-add-a-navigation-link-to-this-page-in-all-existing-standalone-html-pages-on-successful-submission-display-a-green-toast-notification-saying-ngo-registered-successfully",
+      "title": "Add an NGO Registration page to the standalone HTML/CSS/JS version at frontend/standalone/ngo-registration.html. The form must include fields: NGO Name, Contact Person, Email, Phone Number, Address, and Type of Assistance Needed (dropdown). Use the shared styles.css and script.js. Store submitted NGO records in localStorage under the key 'bytemeal_ngos'. Add a navigation link to this page in all existing standalone HTML pages. On successful submission, display a green toast notification saying 'NGO Registered Successfully'.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-after-a-food-donation-is-successfully-submitted-on-the-react-donor-form-page-donorform-tsx-display-a-prominent-toast-popup-notification-that-reads-food-collection-confirmed-your-donation-has-been-scheduled-for-pickup-in-addition-to-the-existing-donation-submitted-successfully-toast-ensure-the-notification-is-clearly-visible-and-uses-green-success-styling-consistent-with-the-existing-glassmorphism-design",
+      "title": "After a food donation is successfully submitted on the React Donor Form page (DonorForm.tsx), display a prominent toast/popup notification that reads 'Food Collection Confirmed! Your donation has been scheduled for pickup.' in addition to the existing 'Donation Submitted Successfully' toast. Ensure the notification is clearly visible and uses green/success styling consistent with the existing Glassmorphism design.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-standalone-donor-form-html-page-after-a-food-donation-is-successfully-submitted-display-a-toast-notification-reading-food-collection-confirmed-your-donation-has-been-scheduled-for-pickup-using-the-existing-showtoast-utility-in-script-js-in-addition-to-any-existing-success-message",
+      "title": "In the standalone donor-form.html page, after a food donation is successfully submitted, display a toast notification reading 'Food Collection Confirmed! Your donation has been scheduled for pickup.' using the existing showToast utility in script.js, in addition to any existing success message.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-react-query-mutation-hook-useupdatengostatus-in-frontend-src-hooks-usequeries-ts-that-calls-the-backend-updatengostatus-function-accepting-an-ngo-id-and-a-new-status-string-pending-approved-or-rejected-and-invalidates-the-getngos-query-on-success",
+      "title": "Add a React Query mutation hook `useUpdateNGOStatus` in `frontend/src/hooks/useQueries.ts` that calls the backend `updateNGOStatus` function, accepting an NGO ID and a new status string ('Pending', 'Approved', or 'Rejected'), and invalidates the getNGOs query on success.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-react-page-frontend-src-pages-adminngoapproval-tsx-that-displays-a-list-of-all-registered-ngos-fetched-via-usegetngos-each-ngo-entry-must-show-ngo-name-contact-person-email-type-of-assistance-needed-and-current-status-badge-pending-orange-approved-green-rejected-red-for-each-ngo-with-pending-status-provide-approve-and-reject-action-buttons-that-call-useupdatengostatus-style-the-page-with-the-existing-glassmorphism-design-system-glasscard-components-orange-and-sky-blue-accent-colors",
+      "title": "Create a new React page `frontend/src/pages/AdminNGOApproval.tsx` that displays a list of all registered NGOs fetched via `useGetNGOs`. Each NGO entry must show NGO Name, Contact Person, Email, Type of Assistance Needed, and current Status badge (Pending = orange, Approved = green, Rejected = red). For each NGO with 'Pending' status, provide 'Approve' and 'Reject' action buttons that call `useUpdateNGOStatus`. Style the page with the existing Glassmorphism design system (GlassCard components, orange and sky-blue accent colors).",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-register-the-new-admin-ngo-approval-page-as-a-route-admin-ngo-approval-in-frontend-src-app-tsx-and-add-a-navigation-link-labeled-admin-ngos-to-frontend-src-components-navigation-tsx-consistent-with-the-existing-nav-link-styling",
+      "title": "Register the new Admin NGO Approval page as a route `/admin/ngo-approval` in `frontend/src/App.tsx` and add a navigation link labeled 'Admin: NGOs' to `frontend/src/components/Navigation.tsx`, consistent with the existing nav link styling.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-standalone-frontend-standalone-ngo-registration-html-and-frontend-standalone-script-js-add-ngo-verification-status-support-newly-submitted-ngos-stored-in-localstorage-under-bytemeal-ngos-must-include-a-status-field-defaulting-to-pending-add-a-standalone-admin-page-frontend-standalone-admin-ngo-approval-html-that-reads-ngos-from-localstorage-and-allows-changing-their-status-to-approved-or-rejected-via-buttons-add-a-navigation-link-to-this-admin-page-in-all-existing-standalone-html-pages-style-with-the-shared-styles-css-glassmorphism-design",
+      "title": "In the standalone `frontend/standalone/ngo-registration.html` and `frontend/standalone/script.js`, add NGO verification status support. Newly submitted NGOs stored in localStorage under 'bytemeal_ngos' must include a `status` field defaulting to 'Pending'. Add a standalone admin page `frontend/standalone/admin-ngo-approval.html` that reads NGOs from localStorage and allows changing their status to 'Approved' or 'Rejected' via buttons. Add a navigation link to this admin page in all existing standalone HTML pages. Style with the shared `styles.css` glassmorphism design.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-footer-text-bytemeal-food-waste-one-meal-at-a-time-built-with-love-using-california-ai-and-any-variation-of-it-from-the-react-app-footer-component-frontend-src-components-footer-tsx-the-footer-should-no-longer-display-any-california-ai-attribution-tagline-or-the-built-with-love-using-phrase",
+      "title": "Remove the footer text 'ByteMeal · Food Waste, One Meal at a Time · Built with love using California.ai' (and any variation of it) from the React app footer component (frontend/src/components/Footer.tsx). The footer should no longer display any California.ai attribution, tagline, or the 'Built with love using' phrase.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-any-footer-or-page-bottom-text-containing-bytemeal-food-waste-one-meal-at-a-time-built-with-love-using-california-ai-or-similar-branding-attribution-from-all-standalone-html-pages-in-frontend-standalone-index-html-donor-form-html-assistance-form-html-volunteer-form-html-food-listings-html-dashboard-html-ngo-registration-html-admin-ngo-approval-html-and-from-the-shared-styles-css-if-any-such-text-is-injected-via-css-content-properties",
+      "title": "Remove any footer or page-bottom text containing 'ByteMeal', 'Food Waste, One Meal at a Time', 'Built with love using California.ai', or similar branding attribution from all standalone HTML pages in frontend/standalone/ (index.html, donor-form.html, assistance-form.html, volunteer-form.html, food-listings.html, dashboard.html, ngo-registration.html, admin-ngo-approval.html) and from the shared styles.css if any such text is injected via CSS content properties.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-dashboard-page-route-and-all-navigation-links-pointing-to-it-from-the-react-app-frontend-src-app-tsx-and-frontend-src-components-navigation-tsx-the-dashboard-page-frontend-src-pages-dashboard-tsx-should-no-longer-be-accessible-or-linked",
+      "title": "Remove the Dashboard page route and all navigation links pointing to it from the React app (frontend/src/App.tsx and frontend/src/components/Navigation.tsx). The Dashboard page (frontend/src/pages/Dashboard.tsx) should no longer be accessible or linked.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-food-listings-page-route-and-navigation-link-from-the-react-app-frontend-src-app-tsx-and-frontend-src-components-navigation-tsx-the-foodlistings-page-should-no-longer-be-accessible-or-linked",
+      "title": "Remove the Food Listings page route and navigation link from the React app (frontend/src/App.tsx and frontend/src/components/Navigation.tsx). The FoodListings page should no longer be accessible or linked.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-admin-ngo-approval-page-route-and-navigation-link-admin-ngos-from-the-react-app-frontend-src-app-tsx-and-frontend-src-components-navigation-tsx-the-adminngoapproval-page-should-no-longer-be-accessible-or-linked-from-the-main-navigation",
+      "title": "Remove the Admin NGO Approval page route and navigation link ('Admin: NGOs') from the React app (frontend/src/App.tsx and frontend/src/components/Navigation.tsx). The AdminNGOApproval page should no longer be accessible or linked from the main navigation.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-navigation-component-frontend-src-components-navigation-tsx-so-it-only-contains-links-to-home-donate-donor-form-get-help-assistance-request-form-volunteer-and-ngo-register-all-other-nav-links-must-be-removed",
+      "title": "Update the Navigation component (frontend/src/components/Navigation.tsx) so it only contains links to: Home, Donate (Donor Form), Get Help (Assistance Request Form), Volunteer, and NGO Register. All other nav links must be removed.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-the-food-listings-page-frontend-src-pages-foodlistings-tsx-and-in-the-backend-backend-main-mo-add-accept-and-mark-as-collected-action-buttons-to-each-donation-card-ngos-should-be-able-to-click-accept-to-mark-a-donation-as-accepted-and-mark-as-collected-to-mark-it-as-collected-the-donation-status-must-be-persisted-in-the-backend-display-the-current-status-as-a-badge-on-each-donation-card-available-in-green-accepted-in-orange-sky-blue-collected-in-gray",
+      "title": "On the Food Listings page (frontend/src/pages/FoodListings.tsx) and in the backend (backend/main.mo), add 'Accept' and 'Mark as Collected' action buttons to each donation card. NGOs should be able to click 'Accept' to mark a donation as 'Accepted' and 'Mark as Collected' to mark it as 'Collected'. The donation status must be persisted in the backend. Display the current status as a badge on each donation card ('Available' in green, 'Accepted' in orange/sky-blue, 'Collected' in gray).",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-re-expose-the-food-listings-page-as-an-accessible-route-e-g-listings-and-add-it-back-to-navigation-but-only-if-req-30-conflicts-with-the-ngo-accept-collected-feature-req-33-if-the-food-listings-page-is-needed-for-ngos-to-take-action-on-donations-keep-it-in-the-nav-under-a-label-like-food-listings-or-manage-donations-otherwise-keep-it-removed",
+      "title": "Re-expose the Food Listings page as an accessible route (e.g., /listings) and add it back to navigation — but only if REQ-30 conflicts with the NGO 'Accept'/'Collected' feature (REQ-33). If the Food Listings page is needed for NGOs to take action on donations, keep it in the nav under a label like 'Food Listings' or 'Manage Donations'. Otherwise, keep it removed.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-home-landing-page-frontend-src-pages-home-tsx-to-remove-any-references-to-the-dashboard-or-food-listings-in-its-cta-buttons-or-feature-highlights-keep-only-the-donate-food-and-get-help-cta-buttons-remove-any-platform-stats-counters-total-donations-volunteers-requests-from-the-home-page",
+      "title": "Update the Home landing page (frontend/src/pages/Home.tsx) to remove any references to the Dashboard or Food Listings in its CTA buttons or feature highlights. Keep only the 'Donate Food' and 'Get Help' CTA buttons. Remove any platform stats counters (total donations, volunteers, requests) from the Home page.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -166,22 +303,46 @@
       "status": "pending"
     },
     {
-      "id": "AR-5",
-      "summary": "User Dashboard showing Welcome message, Profile, and Assigned Tasks",
+      "id": "AR-13",
+      "summary": "Create a standalone plain HTML + CSS + JavaScript version of ByteMeal that can be run directly in a browser without any build tools, React, or Motoko",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-12",
-      "summary": "Implement backend storage for donation records, assistance requests, and volunteer registrations using Motoko stable data structures. Expose query and update functions: addDonation, getDonations, addAssistanceRequest, getAssistanceRequests, addVolunteer, getVolunteers.",
+      "id": "AR-14",
+      "summary": "Add NGO Registration page with form fields (NGO name, contact person, email, phone, address, type of assistance needed) and localStorage storage",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Show a toast/popup notification after food collection (donation submission) confirming the collection was successful",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Add NGO verification/approval process where an admin can approve or reject registered NGOs",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Extend the Motoko backend to support NGO verification status. Add a `status` field to the NGO record type with possible values: 'Pending', 'Approved', 'Rejected'. Add an `updateNGOStatus` update function that accepts an NGO ID and a new status value. Newly registered NGOs must default to 'Pending' status.",
       "reqIds": [
-        "REQ-7"
+        "REQ-22"
       ],
       "status": "pending"
     },
     {
-      "id": "AR-13",
-      "summary": "Create a standalone plain HTML + CSS + JavaScript version of ByteMeal that can be run directly in a browser without any build tools, React, or Motoko",
+      "id": "AR-18",
+      "summary": "Remove the footer/tagline text 'ByteMeal · Food Waste, One Meal at a Time · Built with love using California.ai' (or similar branding text) from all pages",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Add 'Accepted' and 'Collected' status action buttons on food donations so NGOs can mark a collected donation accordingly",
       "reqIds": [],
       "status": "pending"
     }

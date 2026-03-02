@@ -1,13 +1,16 @@
 # Specification
 
 ## Summary
-**Goal:** Create a fully self-contained, downloadable standalone HTML/CSS/JS version of ByteMeal that works directly in a browser without any server or build tools.
+**Goal:** Simplify the ByteMeal app by removing unused pages/navigation links, cleaning up the Home page, and adding NGO status actions (Accept/Collected) to donation listings.
 
 **Planned changes:**
-- Create/update `frontend/standalone/index.html`, `donor-form.html`, `assistance-form.html`, `volunteer-form.html`, `food-listings.html`, and `dashboard.html` with correct relative paths to shared `styles.css` and `script.js`
-- Create/update `frontend/standalone/styles.css` with the ByteMeal Glassmorphism design system: Vibrant Orange (#FF6B2B) and Sky Blue (#38BDF8) accents, frosted-glass cards, dark food-themed gradient background, Inter font from Google Fonts CDN, and responsive media queries for mobile/tablet/desktop
-- Create/update `frontend/standalone/script.js` with globally accessible utilities: hamburger nav toggle, toast notifications, localStorage helpers for donations/assistance/volunteer records, form validation, and button loading state management
-- Each HTML page includes an inline script block calling the appropriate page-specific logic (form submission, data rendering, stats counting)
-- All navigation links between pages work via relative paths on the `file://` protocol
+- Remove Dashboard page route and its navigation link; navigating to /dashboard redirects to home or shows 404.
+- Remove Admin NGO Approval page route and its "Admin: NGOs" navigation link.
+- Update Navigation to show only: Home, Donate, Get Help, Volunteer, NGO Register, and Food Listings (kept for NGO actions).
+- Add "Accept" and "Mark as Collected" action buttons to each donation card on the Food Listings page.
+- Add `updateDonationStatus` function to the backend to persist donation status (Available → Accepted → Collected).
+- Display a color-coded status badge on each donation card: Available (green), Accepted (sky-blue), Collected (gray).
+- Show a toast notification on successful status update.
+- Update Home page to remove platform stats counters and any CTA buttons/links pointing to Dashboard or Food Listings; keep only "Donate Food" and "Get Help" CTAs.
 
-**User-visible outcome:** Users can download the `frontend/standalone/` folder and open `index.html` directly in a browser to use the full ByteMeal app — including forms, food listings, and dashboard — with no server, Node.js, or build tools required.
+**User-visible outcome:** The app has a clean navigation with only the core forms and Food Listings. NGOs can open Food Listings, accept donations, and mark them as collected with real-time status badges and toast feedback. The Home page shows only the two primary CTAs with no stats counters.

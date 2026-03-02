@@ -209,18 +209,72 @@ function saveVolunteer(data) {
 }
 
 /* ============================================================
+   localStorage Helpers – NGOs
+   ============================================================ */
+function getNGOs() {
+  try {
+    var raw = localStorage.getItem('bytemeal_ngos');
+    if (!raw) return [];
+    var parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function addNGO(data) {
+  try {
+    var ngos = getNGOs();
+    var record = Object.assign({}, data, {
+      id: 'ngo_' + Date.now(),
+      status: 'Pending',
+      timestamp: generateTimestamp()
+    });
+    ngos.push(record);
+    localStorage.setItem('bytemeal_ngos', JSON.stringify(ngos));
+    return record;
+  } catch (e) {
+    console.warn('Could not save NGO:', e);
+    return null;
+  }
+}
+
+function updateNGOStatus(id, newStatus) {
+  try {
+    var ngos = getNGOs();
+    var updated = ngos.map(function (ngo) {
+      if (ngo.id === id) {
+        return Object.assign({}, ngo, { status: newStatus });
+      }
+      return ngo;
+    });
+    localStorage.setItem('bytemeal_ngos', JSON.stringify(updated));
+    return true;
+  } catch (e) {
+    console.warn('Could not update NGO status:', e);
+    return false;
+  }
+}
+
+function getAllNGOs() {
+  return getNGOs();
+}
+
+/* ============================================================
    Platform Stats Aggregation
    ============================================================ */
 function getStats() {
   var donations = getDonations();
   var requests = getAssistanceRequests();
   var volunteers = getVolunteers();
+  var ngos = getNGOs();
   var claimed = donations.filter(function (d) { return d.status === 'claimed'; }).length;
 
   return {
     donations: donations.length,
     assistanceRequests: requests.length,
     volunteers: volunteers.length,
-    claimed: claimed
+    claimed: claimed,
+    ngos: ngos.length
   };
 }

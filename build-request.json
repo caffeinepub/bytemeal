@@ -1,85 +1,148 @@
 {
   "kind": "build_request",
-  "title": "Improve and consolidate standalone HTML/CSS/JS downloadable version",
+  "title": "Simplify ByteMeal: Keep 3 core forms, NGO status actions, remove Dashboard/stats",
   "projectName": "ByteMeal",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-15",
-      "text": "Ensure the standalone HTML/CSS/JS version of ByteMeal (located in frontend/standalone/) is complete, self-contained, and fully functional as a downloadable package. All pages — index.html (Home), donor-form.html, assistance-form.html, volunteer-form.html, food-listings.html, and dashboard.html — must be fully linked to the shared styles.css and script.js files using relative paths, so that the entire frontend/standalone/ folder can be downloaded and opened directly in a browser without any server, build tools, or framework.",
+      "id": "REQ-29",
+      "text": "Remove the Dashboard page route and all navigation links pointing to it from the React app (frontend/src/App.tsx and frontend/src/components/Navigation.tsx). The Dashboard page (frontend/src/pages/Dashboard.tsx) should no longer be accessible or linked.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-4"
         ],
         "quotes": [
-          "mai css JavaScript HTML ka wala code he chahiye",
-          "Download mea pura download ho raha hu"
+          "vah jo dashboard hai aur Lakshya bataye kitne user hai yah sab mere Ko nahin chahie"
         ]
       },
       "acceptanceCriteria": [
-        "All standalone HTML pages link correctly to styles.css and script.js via relative paths",
-        "Opening index.html directly in a browser (file:// protocol) renders the full ByteMeal home page with correct styles",
-        "Navigation links between all pages work correctly when the folder is opened locally",
-        "All form submissions (Donor, Assistance Request, Volunteer) store data to localStorage and show toast notifications",
-        "Food Listings page reads from localStorage and displays submitted donations as cards",
-        "Dashboard page shows live stats counted from localStorage entries",
-        "No React, Node.js, or build tool dependency exists in the standalone folder"
+        "No navigation link for Dashboard exists in the navbar.",
+        "The /dashboard route is removed from App.tsx.",
+        "Navigating to /dashboard shows a 404 or redirects to home."
       ]
     },
     {
-      "id": "REQ-16",
-      "text": "Ensure the standalone styles.css comprehensively covers all pages with the ByteMeal Glassmorphism design system: Vibrant Orange (#FF6B2B) and Sky Blue (#38BDF8) accent colors, frosted-glass card styles (backdrop-filter: blur, semi-transparent backgrounds), smooth rounded corners, subtle box shadows, a dark food-themed gradient background on all pages, Inter font loaded from Google Fonts CDN, and full mobile/tablet/desktop responsiveness via CSS media queries.",
+      "id": "REQ-30",
+      "text": "Remove the Food Listings page route and navigation link from the React app (frontend/src/App.tsx and frontend/src/components/Navigation.tsx). The FoodListings page should no longer be accessible or linked.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-4"
         ],
         "quotes": [
-          "css JavaScript HTML ka wala code he chahiye"
+          "baki sab functionalities mere Ko nahin chahie"
         ]
       },
       "acceptanceCriteria": [
-        "styles.css imports Inter font from Google Fonts CDN",
-        "All glassmorphism card styles are present and applied across all pages",
-        "Orange and Sky Blue accent colors are used for buttons, badges, and highlights",
-        "Dark background with overlay is applied on all pages ensuring text readability",
-        "Responsive layouts work correctly at 375px (mobile), 768px (tablet), and 1280px (desktop) viewports"
+        "No navigation link for Food Listings exists in the navbar.",
+        "The /listings route is removed from App.tsx."
       ]
     },
     {
-      "id": "REQ-17",
-      "text": "Ensure the standalone script.js file provides all shared JavaScript utilities needed across all pages: hamburger navigation toggle, toast notification display, localStorage read/write helpers for donations, assistance requests, and volunteer records, form validation helpers, and button loading state management. Each HTML page must include a script block that calls the appropriate functions for its own page logic (form submission, data rendering, stats counting).",
+      "id": "REQ-31",
+      "text": "Remove the Admin NGO Approval page route and navigation link ('Admin: NGOs') from the React app (frontend/src/App.tsx and frontend/src/components/Navigation.tsx). The AdminNGOApproval page should no longer be accessible or linked from the main navigation.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-4"
         ],
         "quotes": [
-          "css JavaScript HTML ka wala code he chahiye"
+          "baki sab functionalities mere Ko nahin chahie"
         ]
       },
       "acceptanceCriteria": [
-        "script.js exports or defines globally accessible utility functions",
-        "Toast notifications appear correctly on form submission success",
-        "Form data is saved to localStorage on submission",
-        "Food Listings page dynamically renders donation cards from localStorage",
-        "Dashboard stats update to reflect current localStorage record counts",
-        "Hamburger menu opens and closes correctly on mobile"
+        "No 'Admin: NGOs' link appears in the navigation bar.",
+        "The /admin/ngo-approval route is removed from App.tsx."
+      ]
+    },
+    {
+      "id": "REQ-32",
+      "text": "Update the Navigation component (frontend/src/components/Navigation.tsx) so it only contains links to: Home, Donate (Donor Form), Get Help (Assistance Request Form), Volunteer, and NGO Register. All other nav links must be removed.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "ek donor wala form register wala FIR ek NGO wala ho ek volunteer wala"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Navigation shows exactly: Home, Donate, Get Help, Volunteer, NGO Register.",
+        "No other links (Dashboard, Food Listings, Admin) appear in the nav."
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "text": "On the Food Listings page (frontend/src/pages/FoodListings.tsx) and in the backend (backend/main.mo), add 'Accept' and 'Mark as Collected' action buttons to each donation card. NGOs should be able to click 'Accept' to mark a donation as 'Accepted' and 'Mark as Collected' to mark it as 'Collected'. The donation status must be persisted in the backend. Display the current status as a badge on each donation card ('Available' in green, 'Accepted' in orange/sky-blue, 'Collected' in gray).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "agar koi NGO food collect karta hai to use per accepted ya collected karke option dikhana chahie"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each donation card shows an 'Accept' button when status is 'Available'.",
+        "Clicking 'Accept' updates the donation status to 'Accepted' in the backend and reflects on the UI.",
+        "Each 'Accepted' donation card shows a 'Mark as Collected' button.",
+        "Clicking 'Mark as Collected' updates the donation status to 'Collected' in the backend and reflects on the UI.",
+        "Status badge on each card updates to reflect current state: Available (green), Accepted (sky-blue), Collected (gray).",
+        "Toast notification is shown on successful status update (e.g., 'Donation marked as Accepted').",
+        "Backend exposes an updateDonationStatus function that accepts a donation ID and new status string."
+      ]
+    },
+    {
+      "id": "REQ-34",
+      "text": "Re-expose the Food Listings page as an accessible route (e.g., /listings) and add it back to navigation — but only if REQ-30 conflicts with the NGO 'Accept'/'Collected' feature (REQ-33). If the Food Listings page is needed for NGOs to take action on donations, keep it in the nav under a label like 'Food Listings' or 'Manage Donations'. Otherwise, keep it removed.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "agar koi NGO food collect karta hai to use per accepted ya collected karke option dikhana chahie"
+        ]
+      },
+      "acceptanceCriteria": [
+        "NGOs can access a page listing donations with Accept/Collected action buttons.",
+        "The page is reachable via a navigation link."
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "text": "Update the Home landing page (frontend/src/pages/Home.tsx) to remove any references to the Dashboard or Food Listings in its CTA buttons or feature highlights. Keep only the 'Donate Food' and 'Get Help' CTA buttons. Remove any platform stats counters (total donations, volunteers, requests) from the Home page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Lakshya bataye kitne user hai yah sab mere Ko nahin chahie"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Home page shows only 'Donate Food' and 'Get Help' as primary CTA buttons.",
+        "No live stats counters (donation count, volunteer count, request count) are displayed on the Home page.",
+        "No links or buttons pointing to Dashboard or Food Listings appear on Home."
       ]
     }
   ],
   "constraints": [
-    "Do not modify any files outside of frontend/standalone/",
-    "Do not use React, TypeScript, or any build tools in the standalone version",
-    "All standalone pages must work when opened via the file:// protocol in a browser",
-    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui"
+    "Do not remove or modify the Donor Form, NGO Registration Form, Volunteer Form, or Assistance Request Form pages or their backend logic.",
+    "All existing form submission toast notifications (success/failure) must remain intact.",
+    "Preserve the Glassmorphism design system (orange #FF6B2B, sky blue #38BDF8, frosted glass cards, food background).",
+    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui."
   ],
   "nonGoals": [
-    "Modifying the React/TypeScript frontend application",
-    "Modifying the Motoko backend",
-    "Adding new pages or features not already present in the existing standalone version",
-    "Integrating the standalone version with any backend or API"
+    "Rebuilding or redesigning the Donor, NGO, or Volunteer forms.",
+    "Adding any new authentication or user account features.",
+    "Modifying the standalone HTML/CSS/JS version in frontend/standalone/.",
+    "Adding new pages beyond what is specified.",
+    "Changing the overall Glassmorphism visual design."
   ],
   "imageRequirements": {
     "required": [],

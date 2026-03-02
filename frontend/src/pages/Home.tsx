@@ -7,8 +7,6 @@ import {
   Leaf,
   HandHeart,
   ArrowRight,
-  Package,
-  MapPin,
 } from 'lucide-react';
 import GlassCard from '../components/GlassCard';
 
@@ -43,13 +41,6 @@ const features = [
   },
 ];
 
-const stats = [
-  { value: '10K+', label: 'Meals Saved', icon: Package },
-  { value: '500+', label: 'Active Donors', icon: Heart },
-  { value: '200+', label: 'Volunteers', icon: Users },
-  { value: '50+', label: 'Cities Covered', icon: MapPin },
-];
-
 export default function Home() {
   return (
     <div className="flex flex-col">
@@ -74,7 +65,7 @@ export default function Home() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fade-in">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in">
             <Link
               to="/donate"
               className="btn-orange inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-semibold w-full sm:w-auto justify-center"
@@ -91,17 +82,6 @@ export default function Home() {
               Get Help
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto animate-fade-in">
-            {stats.map((stat) => (
-              <GlassCard key={stat.label} className="p-4 text-center">
-                <stat.icon className="w-5 h-5 text-brand-orange mx-auto mb-2" />
-                <div className="font-display font-bold text-2xl text-white">{stat.value}</div>
-                <div className="text-white/60 text-xs mt-1">{stat.label}</div>
-              </GlassCard>
-            ))}
           </div>
         </div>
       </section>

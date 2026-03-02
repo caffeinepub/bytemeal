@@ -20,7 +20,9 @@
         <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
         <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
         <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="ngo-registration.html" class="nav-link">NGO Register</a></li>
         <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+        <li><a href="admin-ngo-approval.html" class="nav-link">Admin: NGOs</a></li>
       </ul>
       <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -56,6 +58,11 @@
           <div class="stat-icon">👥</div>
           <div class="stat-number" id="dashVolunteers">0</div>
           <div class="stat-label">Volunteers Registered</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-icon">🏢</div>
+          <div class="stat-number" id="dashNGOs">0</div>
+          <div class="stat-label">NGOs Registered</div>
         </div>
         <div class="glass-card stat-card">
           <div class="stat-icon">✅</div>
@@ -108,15 +115,23 @@
         </a>
         <a href="assistance-form.html" class="glass-card quick-action-card">
           <div class="quick-action-icon">🤝</div>
-          <div class="quick-action-label">Request Help</div>
+          <div class="quick-action-label">Get Help</div>
         </a>
         <a href="volunteer-form.html" class="glass-card quick-action-card">
           <div class="quick-action-icon">🙋</div>
           <div class="quick-action-label">Volunteer</div>
         </a>
         <a href="food-listings.html" class="glass-card quick-action-card">
-          <div class="quick-action-icon">🔍</div>
-          <div class="quick-action-label">Browse Listings</div>
+          <div class="quick-action-icon">📋</div>
+          <div class="quick-action-label">Food Listings</div>
+        </a>
+        <a href="ngo-registration.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">🏢</div>
+          <div class="quick-action-label">Register NGO</div>
+        </a>
+        <a href="admin-ngo-approval.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">⚙️</div>
+          <div class="quick-action-label">Admin: NGOs</div>
         </a>
       </div>
     </div>
@@ -131,8 +146,7 @@
           <span class="logo-text">ByteMeal</span>
         </div>
         <p class="footer-copy">
-          &copy; <span id="footerYear"></span> ByteMeal. Built with ❤️ using
-          <a href="https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=bytemeal-standalone" target="_blank" rel="noopener" class="footer-link">caffeine.ai</a>
+          &copy; <span id="footerYear"></span> ByteMeal. All rights reserved.
         </p>
       </div>
     </div>
@@ -145,80 +159,66 @@
   <script>
     document.getElementById('footerYear').textContent = new Date().getFullYear();
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-    function getUrgencyBadge(urgency) {
-      var map = { low: 'badge-fresh', medium: 'badge-soon', high: 'badge-urgent', critical: 'badge-expired' };
-      var labels = { low: 'Low', medium: 'Medium', high: 'High', critical: 'Critical' };
-      var cls = map[urgency] || 'badge-available';
-      var label = labels[urgency] || urgency || 'Normal';
-      return '<span class="badge ' + cls + '">' + label + '</span>';
-    }
-
     window.addEventListener('DOMContentLoaded', function () {
       var stats = getStats();
-
       document.getElementById('dashDonations').textContent = stats.donations;
       document.getElementById('dashRequests').textContent = stats.assistanceRequests;
       document.getElementById('dashVolunteers').textContent = stats.volunteers;
-      document.getElementById('dashClaimed').textContent = stats.claimed;
+      document.getElementById('dashNGOs').textContent = stats.ngos || 0;
+      document.getElementById('dashClaimed').textContent = stats.claimed || 0;
 
       // Recent Donations
       var donations = getDonations();
-      var recentDonationsEl = document.getElementById('recentDonations');
+      var donationsEl = document.getElementById('recentDonations');
       if (donations.length > 0) {
-        var recent = donations.slice(-5).reverse();
-        recentDonationsEl.innerHTML = recent.map(function (d) {
+        donationsEl.innerHTML = donations.slice(-5).reverse().map(function (d) {
           return '<div class="panel-item">' +
-            '<div class="panel-item-main">' +
-              '<span class="panel-item-title">' + escapeHtml(d.foodItem) + '</span>' +
-              '<span class="panel-item-sub">' + escapeHtml(d.quantity + ' ' + (d.unit || '')) + ' · ' + escapeHtml(d.pickupLocation || '') + '</span>' +
+            '<div class="panel-item-icon">🍱</div>' +
+            '<div class="panel-item-info">' +
+              '<div class="panel-item-title">' + escapeHtml(d.foodItem) + '</div>' +
+              '<div class="panel-item-sub">' + escapeHtml(d.quantity + ' ' + (d.unit || '')) + ' · ' + escapeHtml(d.donorId || 'Anonymous') + '</div>' +
             '</div>' +
-            '<span class="badge ' + (d.status === 'claimed' ? 'badge-claimed' : 'badge-available') + '">' + (d.status === 'claimed' ? 'Claimed' : 'Available') + '</span>' +
+            '<span class="badge badge-available">Available</span>' +
           '</div>';
         }).join('');
       }
 
       // Recent Requests
       var requests = getAssistanceRequests();
-      var recentRequestsEl = document.getElementById('recentRequests');
+      var requestsEl = document.getElementById('recentRequests');
       if (requests.length > 0) {
-        var recentReqs = requests.slice(-5).reverse();
-        recentRequestsEl.innerHTML = recentReqs.map(function (r) {
+        requestsEl.innerHTML = requests.slice(-5).reverse().map(function (r) {
+          var urgencyClass = r.urgency === 'critical' ? 'badge-expired' : r.urgency === 'high' ? 'badge-urgent' : r.urgency === 'medium' ? 'badge-soon' : 'badge-available';
           return '<div class="panel-item">' +
-            '<div class="panel-item-main">' +
-              '<span class="panel-item-title">' + escapeHtml(r.recipientName) + '</span>' +
-              '<span class="panel-item-sub">' + escapeHtml(r.numberOfPeople + ' people · ' + (r.deliveryAddress || '')) + '</span>' +
+            '<div class="panel-item-icon">🤝</div>' +
+            '<div class="panel-item-info">' +
+              '<div class="panel-item-title">' + escapeHtml(r.recipientName) + '</div>' +
+              '<div class="panel-item-sub">' + escapeHtml(r.numberOfPeople) + ' people · ' + escapeHtml(r.deliveryAddress || '') + '</div>' +
             '</div>' +
-            getUrgencyBadge(r.urgency) +
+            '<span class="badge ' + urgencyClass + '">' + escapeHtml(r.urgency || 'normal') + '</span>' +
           '</div>';
         }).join('');
       }
 
-      // Volunteers Grid
+      // Volunteers
       var volunteers = getVolunteers();
-      var volunteersGridEl = document.getElementById('volunteersGrid');
+      var volunteersEl = document.getElementById('volunteersGrid');
       if (volunteers.length > 0) {
-        volunteersGridEl.innerHTML = volunteers.map(function (v) {
-          var initials = (v.fullName || 'V').split(' ').map(function (n) { return n[0]; }).join('').toUpperCase().slice(0, 2);
-          var roleColors = { delivery: '#FF6B2B', sorting: '#38BDF8', coordination: '#a78bfa', awareness: '#34d399', tech: '#f59e0b', other: '#94a3b8' };
-          var color = roleColors[v.preferredRole] || '#94a3b8';
+        volunteersEl.innerHTML = volunteers.map(function (v) {
           return '<div class="volunteer-card">' +
-            '<div class="volunteer-avatar" style="background: ' + color + '22; border: 2px solid ' + color + ';">' +
-              '<span style="color:' + color + '; font-weight: 700;">' + initials + '</span>' +
-            '</div>' +
-            '<div class="volunteer-info">' +
-              '<div class="volunteer-name">' + escapeHtml(v.fullName) + '</div>' +
-              '<div class="volunteer-role">' + escapeHtml(v.preferredRole || 'Volunteer') + '</div>' +
-              '<div class="volunteer-location">📍 ' + escapeHtml(v.location || '') + '</div>' +
-            '</div>' +
+            '<div class="volunteer-avatar">' + escapeHtml((v.fullName || 'V').charAt(0).toUpperCase()) + '</div>' +
+            '<div class="volunteer-name">' + escapeHtml(v.fullName) + '</div>' +
+            '<div class="volunteer-role">' + escapeHtml(v.preferredRole || 'Volunteer') + '</div>' +
+            '<div class="volunteer-location">📍 ' + escapeHtml(v.location || '') + '</div>' +
           '</div>';
         }).join('');
       }
     });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
   </script>
 </body>
 </html>

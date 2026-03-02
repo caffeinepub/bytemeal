@@ -1,87 +1,142 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Improve and consolidate standalone HTML/CSS/JS downloadable version",
+  "title": "Simplify ByteMeal: Keep 3 core forms, NGO status actions, remove Dashboard/stats",
   "requirements": [
     {
-      "id": "REQ-15",
-      "summary": "Ensure the standalone HTML/CSS/JS version is complete, self-contained, and fully functional as a downloadable package with all pages properly linked and working via file:// protocol",
+      "id": "REQ-29",
+      "summary": "Remove Dashboard page route and all navigation links to it",
       "acceptanceCriteria": [
-        "All standalone HTML pages link correctly to styles.css and script.js via relative paths",
-        "Opening index.html directly in a browser (file:// protocol) renders the full ByteMeal home page with correct styles",
-        "Navigation links between all pages work correctly when the folder is opened locally",
-        "All form submissions (Donor, Assistance Request, Volunteer) store data to localStorage and show toast notifications",
-        "Food Listings page reads from localStorage and displays submitted donations as cards",
-        "Dashboard page shows live stats counted from localStorage entries",
-        "No React, Node.js, or build tool dependency exists in the standalone folder"
+        "No navigation link for Dashboard exists in the navbar.",
+        "The /dashboard route is removed from App.tsx.",
+        "Navigating to /dashboard shows a 404 or redirects to home."
       ],
       "file_operations": [
         {
-          "path": "frontend/standalone/index.html",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links to all pages (donor-form.html, assistance-form.html, volunteer-form.html, food-listings.html, dashboard.html) use correct relative paths. Add inline script block to initialize homepage stats from localStorage using utility functions from script.js."
+          "description": "Remove the /dashboard route definition from the TanStack Router configuration. Remove the route import for the Dashboard page component."
         },
         {
-          "path": "frontend/standalone/donor-form.html",
+          "path": "frontend/src/components/Navigation.tsx",
           "operation": "modify",
-          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add inline script block that handles form submission by calling script.js utilities to save donation data to localStorage, show toast notification, and reset form."
-        },
-        {
-          "path": "frontend/standalone/assistance-form.html",
-          "operation": "modify",
-          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add inline script block that handles form submission by calling script.js utilities to save assistance request data to localStorage, show toast notification, and reset form."
-        },
-        {
-          "path": "frontend/standalone/volunteer-form.html",
-          "operation": "modify",
-          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add inline script block that handles form submission by calling script.js utilities to save volunteer data to localStorage, show toast notification, and reset form."
-        },
-        {
-          "path": "frontend/standalone/food-listings.html",
-          "operation": "modify",
-          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add or update inline script block that reads donation data from localStorage using script.js utilities and dynamically renders donation cards with all relevant fields (item name, quantity, expiry, location, contact)."
-        },
-        {
-          "path": "frontend/standalone/dashboard.html",
-          "operation": "modify",
-          "description": "Verify and fix relative paths to styles.css and script.js. Ensure navigation links work correctly. Add or update inline script block that counts localStorage entries (donations, assistance requests, volunteers) using script.js utilities and updates the dashboard stat cards with live counts."
+          "description": "Remove the Dashboard navigation link from both desktop and mobile navigation menus."
         }
       ]
     },
     {
-      "id": "REQ-16",
-      "summary": "Ensure styles.css comprehensively covers all pages with ByteMeal Glassmorphism design system including vibrant colors, frosted-glass effects, dark food-themed gradient background, Inter font, and full responsive layouts",
+      "id": "REQ-30",
+      "summary": "Remove Food Listings page route and navigation link",
       "acceptanceCriteria": [
-        "styles.css imports Inter font from Google Fonts CDN",
-        "All glassmorphism card styles are present and applied across all pages",
-        "Orange and Sky Blue accent colors are used for buttons, badges, and highlights",
-        "Dark background with overlay is applied on all pages ensuring text readability",
-        "Responsive layouts work correctly at 375px (mobile), 768px (tablet), and 1280px (desktop) viewports"
+        "No navigation link for Food Listings exists in the navbar.",
+        "The /listings route is removed from App.tsx."
       ],
       "file_operations": [
         {
-          "path": "frontend/standalone/styles.css",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Ensure Google Fonts CDN import for Inter font family is present at the top. Verify and enhance CSS custom properties for ByteMeal brand colors (Vibrant Orange #FF6B2B, Sky Blue #38BDF8). Ensure all glassmorphism card styles include backdrop-filter: blur, semi-transparent backgrounds with rgba, rounded corners, and subtle box shadows. Add or verify dark food-themed gradient background styles with overlay for all pages. Verify and enhance responsive media queries for mobile (375px), tablet (768px), and desktop (1280px) breakpoints covering navigation, forms, cards, grids, and typography. Ensure all button styles (.btn-orange, .btn-blue) use the accent colors. Verify toast notification styles for visibility and accessibility."
+          "description": "Remove the /listings route definition from the TanStack Router configuration. Remove the route import for the FoodListings page component."
+        },
+        {
+          "path": "frontend/src/components/Navigation.tsx",
+          "operation": "modify",
+          "description": "Remove the Food Listings navigation link from both desktop and mobile navigation menus."
         }
       ]
     },
     {
-      "id": "REQ-17",
-      "summary": "Ensure script.js provides all shared JavaScript utilities including navigation toggle, toast notifications, localStorage helpers, form validation, and button loading state management for use across all standalone pages",
+      "id": "REQ-31",
+      "summary": "Remove Admin NGO Approval page route and navigation link",
       "acceptanceCriteria": [
-        "script.js exports or defines globally accessible utility functions",
-        "Toast notifications appear correctly on form submission success",
-        "Form data is saved to localStorage on submission",
-        "Food Listings page dynamically renders donation cards from localStorage",
-        "Dashboard stats update to reflect current localStorage record counts",
-        "Hamburger menu opens and closes correctly on mobile"
+        "No 'Admin: NGOs' link appears in the navigation bar.",
+        "The /admin/ngo-approval route is removed from App.tsx."
       ],
       "file_operations": [
         {
-          "path": "frontend/standalone/script.js",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Ensure globally accessible utility functions are defined: toggleMobileNav() for hamburger menu, showToast(message, type) for toast notifications, validateForm(formData) for client-side validation, setButtonLoading(button, isLoading) for loading states. Implement localStorage helpers: saveDonation(data), saveAssistanceRequest(data), saveVolunteer(data), getDonations(), getAssistanceRequests(), getVolunteers(), getStats() that return counts of each entity type. Ensure all functions handle edge cases (empty localStorage, invalid JSON) gracefully and return appropriate defaults. Add timestamp generation for new records. Ensure all utility functions are invokable from inline script blocks in HTML pages."
+          "description": "Remove the /admin/ngo-approval route definition from the TanStack Router configuration. Remove the route import for the AdminNGOApproval page component."
+        },
+        {
+          "path": "frontend/src/components/Navigation.tsx",
+          "operation": "modify",
+          "description": "Remove the 'Admin: NGOs' navigation link from both desktop and mobile navigation menus."
+        }
+      ]
+    },
+    {
+      "id": "REQ-32",
+      "summary": "Update Navigation to show only: Home, Donate, Get Help, Volunteer, NGO Register",
+      "acceptanceCriteria": [
+        "Navigation shows exactly: Home, Donate, Get Help, Volunteer, NGO Register.",
+        "No other links (Dashboard, Food Listings, Admin) appear in the nav."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Navigation.tsx",
+          "operation": "modify",
+          "description": "Update the navigation links array to contain exactly five links: Home (to /), Donate (to /donate), Get Help (to /request-help), Volunteer (to /volunteer), and NGO Register (to /ngo-register). Remove all other links including Dashboard, Food Listings, and Admin: NGOs. Update both desktop navigation menu and mobile hamburger menu to reflect these five links only."
+        }
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "summary": "Add Accept and Mark as Collected action buttons to donation cards with status badges",
+      "acceptanceCriteria": [
+        "Each donation card shows an 'Accept' button when status is 'Available'.",
+        "Clicking 'Accept' updates the donation status to 'Accepted' in the backend and reflects on the UI.",
+        "Each 'Accepted' donation card shows a 'Mark as Collected' button.",
+        "Clicking 'Mark as Collected' updates the donation status to 'Collected' in the backend and reflects on the UI.",
+        "Status badge on each card updates to reflect current state: Available (green), Accepted (sky-blue), Collected (gray).",
+        "Toast notification is shown on successful status update (e.g., 'Donation marked as Accepted').",
+        "Backend exposes an updateDonationStatus function that accepts a donation ID and new status string."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/FoodListings.tsx",
+          "operation": "modify",
+          "description": "Transform each donation card to display a status badge showing the current DonationStatus (available in green, accepted in sky-blue, collected in gray). Add an 'Accept' button to cards with status 'available' that calls the acceptDonation backend function. Add a 'Mark as Collected' button to cards with status 'accepted' that calls the markDonationAsCollected backend function. Wire both buttons to use React Query mutations with optimistic updates and invalidate the donations query on success. Show toast notifications on successful status updates or errors. Use the backend interface methods acceptDonation(donationId) and markDonationAsCollected(donationId) which already exist in the backend."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add two new mutation hooks: useAcceptDonation and useMarkDonationAsCollected. Each mutation should call the respective backend function (acceptDonation or markDonationAsCollected) using the actor from useActor hook, invalidate the 'donations' query key on success, and handle errors gracefully. Update the DonationStatus type if needed to match the backend interface enum (available, accepted, collected)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-34",
+      "summary": "Re-expose Food Listings page as /listings for NGOs to manage donations",
+      "acceptanceCriteria": [
+        "NGOs can access a page listing donations with Accept/Collected action buttons.",
+        "The page is reachable via a navigation link."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Re-add the /listings route definition to the TanStack Router configuration, pointing to the FoodListings page component. This reverses the removal in REQ-30 to enable NGOs to access donation management."
+        },
+        {
+          "path": "frontend/src/components/Navigation.tsx",
+          "operation": "modify",
+          "description": "Add a 'Food Listings' or 'Manage Donations' navigation link pointing to /listings in both desktop and mobile navigation menus. Position it after 'Get Help' and before 'Volunteer' for logical flow."
+        }
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "summary": "Remove Dashboard and stats counters from Home page, keep only Donate and Get Help CTAs",
+      "acceptanceCriteria": [
+        "Home page shows only 'Donate Food' and 'Get Help' as primary CTA buttons.",
+        "No live stats counters (donation count, volunteer count, request count) are displayed on the Home page.",
+        "No links or buttons pointing to Dashboard or Food Listings appear on Home."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/Home.tsx",
+          "operation": "modify",
+          "description": "Remove the platform stats section that displays live counters for donations, volunteers, and requests. Remove any CTA buttons or links pointing to Dashboard or Food Listings. Keep only the 'Donate Food' button (linking to /donate) and 'Get Help' button (linking to /request-help) in the hero section. Preserve the hero section with its glassmorphism design, ByteMeal branding, and the features section highlighting key capabilities. Remove any useGetDonations, useGetVolunteers, or similar query hooks that fetch stats data."
         }
       ]
     }

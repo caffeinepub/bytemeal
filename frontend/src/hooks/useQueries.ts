@@ -1,15 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useActor } from './useActor';
+import { AssistanceType, NGOStatus } from '../backend';
 
 // ─── Local Types ──────────────────────────────────────────────────────────────
-
-export interface Donation {
-  id: string;
-  foodItem: string;
-  quantity: bigint;
-  unit: string;
-  donorId: string;
-  expiryDate: bigint;
-}
 
 export interface AssistanceRequest {
   id: string;
@@ -30,111 +23,76 @@ export interface Volunteer {
 
 // ─── In-memory store (client-side) ───────────────────────────────────────────
 
-let donationsStore: Donation[] = [
-  {
-    id: '1',
-    foodItem: 'Basmati Rice',
-    quantity: 20n,
-    unit: 'kg',
-    donorId: 'DONOR-001',
-    expiryDate: BigInt(new Date('2026-04-15').getTime()) * 1_000_000n,
-  },
-  {
-    id: '2',
-    foodItem: 'Whole Wheat Bread',
-    quantity: 50n,
-    unit: 'pieces',
-    donorId: 'DONOR-002',
-    expiryDate: BigInt(new Date('2026-03-20').getTime()) * 1_000_000n,
-  },
-  {
-    id: '3',
-    foodItem: 'Fresh Vegetables',
-    quantity: 15n,
-    unit: 'kg',
-    donorId: 'DONOR-003',
-    expiryDate: BigInt(new Date('2026-03-10').getTime()) * 1_000_000n,
-  },
-];
+let assistanceRequestsStore: AssistanceRequest[] = [];
 
-let assistanceRequestsStore: AssistanceRequest[] = [
-  {
-    id: '1',
-    recipientName: 'Hope Foundation',
-    numberOfPeople: 50n,
-    itemsRequired: 'Rice, Lentils, Cooking Oil',
-    deliveryAddress: '123 Hope Street, Eastside',
-  },
-  {
-    id: '2',
-    recipientName: 'Community Kitchen',
-    numberOfPeople: 30n,
-    itemsRequired: 'Bread, Vegetables, Fruits',
-    deliveryAddress: '456 Main Ave, Downtown',
-  },
-];
+let volunteersStore: Volunteer[] = [];
 
-let volunteersStore: Volunteer[] = [
-  {
-    id: '1',
-    fullName: 'Priya Sharma',
-    email: 'priya@example.com',
-    phoneNumber: '+91 98765 43210',
-    location: 'Mumbai',
-    preferredRole: 'Delivery Driver',
-  },
-  {
-    id: '2',
-    fullName: 'Rahul Verma',
-    email: 'rahul@example.com',
-    phoneNumber: '+91 87654 32109',
-    location: 'Delhi',
-    preferredRole: 'Food Sorter',
-  },
-  {
-    id: '3',
-    fullName: 'Anita Patel',
-    email: 'anita@example.com',
-    phoneNumber: '+91 76543 21098',
-    location: 'Bangalore',
-    preferredRole: 'Coordinator',
-  },
-];
+// ─── Food Donations (Backend) ─────────────────────────────────────────────────
 
-// ─── Donations ───────────────────────────────────────────────────────────────
+export function useGetFoodDonations() {
+  const { actor, isFetching } = useActor();
 
-export function useGetDonations() {
-  return useQuery<Donation[]>({
-    queryKey: ['donations'],
+  return useQuery({
+    queryKey: ['foodDonations'],
     queryFn: async () => {
-      // Simulate async fetch
-      await new Promise((r) => setTimeout(r, 300));
-      return [...donationsStore];
+      if (!actor) return [];
+      return actor.getFoodDonations();
     },
+    enabled: !!actor && !isFetching,
   });
 }
 
-export function useAddDonation() {
+export function useAddFoodDonation() {
+  const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (params: {
-      foodItem: string;
+      donorName: string;
+      foodItems: string;
       quantity: bigint;
-      unit: string;
-      donorId: string;
-      expiryDate: bigint;
+      pickupLocation: string;
     }) => {
-      await new Promise((r) => setTimeout(r, 500));
-      const newDonation: Donation = {
-        id: Date.now().toString(),
-        ...params,
-      };
-      donationsStore = [...donationsStore, newDonation];
-      return newDonation;
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.addFoodDonation(
+        params.donorName,
+        params.foodItems,
+        params.quantity,
+        params.pickupLocation,
+      );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['donations'] });
+      queryClient.invalidateQueries({ queryKey: ['foodDonations'] });
+    },
+  });
+}
+
+export function useAcceptDonation() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (donationId: bigint) => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.acceptDonation(donationId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['foodDonations'] });
+    },
+  });
+}
+
+export function useMarkDonationAsCollected() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (donationId: bigint) => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.markDonationAsCollected(donationId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['foodDonations'] });
     },
   });
 }
@@ -208,6 +166,65 @@ export function useAddVolunteer() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['volunteers'] });
+    },
+  });
+}
+
+// ─── NGOs ─────────────────────────────────────────────────────────────────────
+
+export function useGetNGOs() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery({
+    queryKey: ['ngos'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getNGOs();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useAddNGO() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (params: {
+      name: string;
+      contactPerson: string;
+      email: string;
+      phoneNumber: string;
+      address: string;
+      assistanceType: AssistanceType;
+    }) => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.addNGO(
+        params.name,
+        params.contactPerson,
+        params.email,
+        params.phoneNumber,
+        params.address,
+        params.assistanceType,
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ngos'] });
+    },
+  });
+}
+
+export function useUpdateNGOStatus() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (params: { id: bigint; newStatus: NGOStatus }) => {
+      if (!actor) throw new Error('Actor not initialized');
+      await actor.updateNGOStatus(params.id, params.newStatus);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ngos'] });
     },
   });
 }

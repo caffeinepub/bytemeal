@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NGO Registration – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="ngo-registration.html" class="nav-link active">NGO Register</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="admin-ngo-approval.html" class="nav-link">Admin: NGOs</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="form-main">
+    <div class="container">
+      <div class="form-wrapper">
+        <div class="glass-card form-card">
+          <div class="form-header">
+            <div class="form-icon">🏢</div>
+            <h1 class="form-title">Register Your NGO</h1>
+            <p class="form-subtitle">Join ByteMeal's network of NGOs and help distribute food to communities in need.</p>
+          </div>
+
+          <form id="ngoForm" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="ngoName">NGO Name *</label>
+              <input
+                type="text"
+                id="ngoName"
+                name="ngoName"
+                class="form-input"
+                placeholder="Official name of your NGO"
+                required
+              />
+              <span class="field-error" id="ngoNameError"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="contactPerson">Contact Person *</label>
+                <input
+                  type="text"
+                  id="contactPerson"
+                  name="contactPerson"
+                  class="form-input"
+                  placeholder="Full name"
+                  required
+                />
+                <span class="field-error" id="contactPersonError"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ngoEmail">Email Address *</label>
+                <input
+                  type="email"
+                  id="ngoEmail"
+                  name="ngoEmail"
+                  class="form-input"
+                  placeholder="ngo@example.com"
+                  required
+                />
+                <span class="field-error" id="ngoEmailError"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ngoPhone">Phone Number *</label>
+              <input
+                type="tel"
+                id="ngoPhone"
+                name="ngoPhone"
+                class="form-input"
+                placeholder="+91 XXXXX XXXXX"
+                required
+              />
+              <span class="field-error" id="ngoPhoneError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ngoAddress">Address *</label>
+              <textarea
+                id="ngoAddress"
+                name="ngoAddress"
+                class="form-input form-textarea"
+                placeholder="Full address of your NGO"
+                rows="3"
+                required
+              ></textarea>
+              <span class="field-error" id="ngoAddressError"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="assistanceType">Type of Assistance *</label>
+              <select id="assistanceType" name="assistanceType" class="form-input form-select" required>
+                <option value="">Select type</option>
+                <option value="foodDistribution">Food Distribution</option>
+                <option value="shelter">Shelter</option>
+                <option value="medicalAid">Medical Aid</option>
+                <option value="education">Education</option>
+                <option value="generalRelief">General Relief</option>
+              </select>
+              <span class="field-error" id="assistanceTypeError"></span>
+            </div>
+
+            <button type="submit" class="btn-orange btn-full" id="submitBtn">
+              <span id="submitText">Register NGO</span>
+              <span id="submitSpinner" class="spinner hidden"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    document.getElementById('ngoForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      var ngoName = document.getElementById('ngoName').value.trim();
+      var contactPerson = document.getElementById('contactPerson').value.trim();
+      var ngoEmail = document.getElementById('ngoEmail').value.trim();
+      var ngoPhone = document.getElementById('ngoPhone').value.trim();
+      var ngoAddress = document.getElementById('ngoAddress').value.trim();
+      var assistanceType = document.getElementById('assistanceType').value;
+
+      var valid = true;
+
+      if (!ngoName) { showFieldError('ngoNameError', 'NGO name is required.'); valid = false; }
+      if (!contactPerson) { showFieldError('contactPersonError', 'Contact person is required.'); valid = false; }
+      if (!ngoEmail) { showFieldError('ngoEmailError', 'Email is required.'); valid = false; }
+      else if (!isValidEmail(ngoEmail)) { showFieldError('ngoEmailError', 'Please enter a valid email address.'); valid = false; }
+      if (!ngoPhone) { showFieldError('ngoPhoneError', 'Phone number is required.'); valid = false; }
+      if (!ngoAddress) { showFieldError('ngoAddressError', 'Address is required.'); valid = false; }
+      if (!assistanceType) { showFieldError('assistanceTypeError', 'Please select a type of assistance.'); valid = false; }
+
+      if (!valid) return;
+
+      var btn = document.getElementById('submitBtn');
+      setButtonLoading(btn, true);
+
+      setTimeout(function () {
+        addNGO({
+          name: ngoName,
+          contactPerson: contactPerson,
+          email: ngoEmail,
+          phoneNumber: ngoPhone,
+          address: ngoAddress,
+          assistanceType: assistanceType,
+          status: 'Pending'
+        });
+
+        setButtonLoading(btn, false);
+        showToast('🏢 NGO registered successfully! Your application is pending approval.', 'success');
+        document.getElementById('ngoForm').reset();
+      }, 800);
+    });
+  </script>
+</body>
+</html>

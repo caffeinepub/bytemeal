@@ -5,10 +5,10 @@ import { Menu, X, Utensils } from 'lucide-react';
 const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'Donate Food', path: '/donate' },
-  { label: 'Food Listings', path: '/listings' },
   { label: 'Get Help', path: '/request-help' },
+  { label: 'Food Listings', path: '/listings' },
   { label: 'Volunteer', path: '/volunteer' },
-  { label: 'Dashboard', path: '/dashboard' },
+  { label: 'NGO Register', path: '/ngo-register' },
 ];
 
 export default function Navigation() {

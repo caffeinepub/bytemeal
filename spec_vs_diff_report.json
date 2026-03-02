@@ -1,50 +1,56 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-03-02T14:35:38.812Z",
-  "summary": "The diff shows comprehensive implementation of all three requirements (REQ-15, REQ-16, REQ-17) in the frontend/standalone/ directory. All six HTML pages are present and link to styles.css and script.js via relative paths. The styles.css implements the Glassmorphism design system with correct colors, fonts, and responsive layouts. The script.js provides all required utility functions. No files outside frontend/standalone/ appear to have been modified. All core requirements appear to be satisfied.",
-  "missing_requirements": [],
+  "generatedAt": "2026-03-02T16:59:33.617Z",
+  "summary": "The diff implements most requirements: Dashboard and Admin NGO Approval routes/links are removed (REQ-29, REQ-31), FoodListings has Accept/Mark as Collected action buttons with status badges and toast notifications in the frontend (REQ-33 frontend portion), Home page has only Donate Food and Get Help CTAs with no stats counters (REQ-35), and backend has DonationStatus type and related functions. However, REQ-32 is partially violated — Navigation includes 'Food Listings' as a 6th link, which may be acceptable under REQ-34 conflict resolution, but the nav does not show 'exactly' the 5 links specified. REQ-33 backend updateDonationStatus function requirement needs scrutiny. REQ-30 AC says /listings route is removed, but it's kept (justified by REQ-34).",
+  "missing_requirements": [
+    {
+      "id": "REQ-32",
+      "requirement": "Navigation shows exactly: Home, Donate, Get Help, Volunteer, NGO Register. All other nav links must be removed.",
+      "reason": "Navigation.tsx includes 'Food Listings' as a 6th link, giving 6 nav items instead of exactly 5. While REQ-34 provides a conditional exception, REQ-32 still specifies exactly those 5 links. The nav now shows Home, Donate Food, Get Help, Food Listings, Volunteer, NGO Register.",
+      "evidence": [
+        "frontend/src/components/Navigation.tsx"
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "requirement": "Backend exposes an updateDonationStatus function that accepts a donation ID and new status string.",
+      "reason": "The backend adds acceptDonation and markDonationAsCollected functions instead of a unified updateDonationStatus function accepting a donation ID and new status string as required by the acceptance criteria.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
   "hallucinated_features": [
     {
-      "description": "Search and filter functionality on the Food Listings page (search input with oninput='filterListings()' and status filter dropdown)",
-      "reason": "The requirements do not mention a search or filter bar on the Food Listings page — only that it reads from localStorage and displays donation cards.",
+      "description": "A migration module (backend/migration.mo) was added to handle schema migration from an old actor state to a new one with foodDonations list.",
+      "reason": "The build request did not mention adding a migration module or migrating existing backend state. This is an implementation detail added beyond the specified requirements.",
       "evidence": [
-        "frontend/standalone/food-listings.html"
+        "backend/migration.mo"
       ]
     },
     {
-      "description": "Urgency Level field added to the Assistance Request Form",
-      "reason": "REQ-15 and REQ-17 specify the assistance form should have Recipient Name, Number of People, Items Required, and Delivery Address fields. An Urgency Level select field is present but was not requested.",
+      "description": "A urlParams utility module (frontend/src/utils/urlParams.ts) was added with functions for URL parameter parsing, session storage persistence, and admin token handling.",
+      "reason": "The build request did not request any URL parameter utility, session storage utilities, or admin token URL parameter handling. This is not mentioned in any requirement.",
       "evidence": [
-        "frontend/standalone/assistance-form.html"
-      ]
-    },
-    {
-      "description": "Contact Number field added to the Assistance Request Form",
-      "reason": "The BuildRequest specifies fields: Recipient Name, Number of People, Items Required, and Delivery Address. A Contact Number tel field is present but was not in the original spec.",
-      "evidence": [
-        "frontend/standalone/assistance-form.html"
-      ]
-    },
-    {
-      "description": "Recent Donations and Recent Requests panels plus Volunteers grid rendered in the Dashboard beyond just stat counts",
-      "reason": "The requirements only specify that the Dashboard shows live stats counted from localStorage entries. Rendering actual record lists and panels goes beyond the stated requirements.",
-      "evidence": [
-        "frontend/standalone/dashboard.html"
+        "frontend/src/utils/urlParams.ts"
       ]
     }
   ],
   "confidence": 0.78,
   "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "frontend-file-summaries.txt",
-    "frontend/standalone/assistance-form.html",
-    "frontend/standalone/dashboard.html",
-    "frontend/standalone/donor-form.html",
-    "frontend/standalone/food-listings.html",
-    "frontend/standalone/index.html",
-    "frontend/standalone/script.js",
-    "frontend/standalone/styles.css",
-    "frontend/standalone/volunteer-form.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/Navigation.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/Dashboard.tsx",
+    "frontend/src/pages/DonorForm.tsx",
+    "frontend/src/pages/FoodListings.tsx",
+    "frontend/src/pages/Home.tsx",
+    "frontend/src/utils/urlParams.ts",
     "project_state.json"
   ]
 }

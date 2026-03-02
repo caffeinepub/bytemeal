@@ -20,7 +20,9 @@
         <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
         <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
         <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="ngo-registration.html" class="nav-link">NGO Register</a></li>
         <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="admin-ngo-approval.html" class="nav-link">Admin: NGOs</a></li>
       </ul>
       <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -67,17 +69,17 @@
           <div class="glass-card stat-card">
             <div class="stat-icon">🤝</div>
             <div class="stat-number" id="statRequests">0</div>
-            <div class="stat-label">Requests Fulfilled</div>
+            <div class="stat-label">Assistance Requests</div>
           </div>
           <div class="glass-card stat-card">
             <div class="stat-icon">👥</div>
             <div class="stat-number" id="statVolunteers">0</div>
-            <div class="stat-label">Volunteers Active</div>
+            <div class="stat-label">Volunteers</div>
           </div>
           <div class="glass-card stat-card">
-            <div class="stat-icon">🏙️</div>
-            <div class="stat-number">12+</div>
-            <div class="stat-label">Cities Covered</div>
+            <div class="stat-icon">🏢</div>
+            <div class="stat-number" id="statNGOs">0</div>
+            <div class="stat-label">NGOs Registered</div>
           </div>
         </div>
       </div>
@@ -87,27 +89,26 @@
     <section class="features-section">
       <div class="container">
         <h2 class="section-title">How ByteMeal Works</h2>
-        <p class="section-subtitle">Simple steps to make a big difference</p>
         <div class="features-grid">
           <div class="glass-card feature-card">
-            <div class="feature-icon">📦</div>
-            <h3 class="feature-title">List Your Food</h3>
-            <p class="feature-desc">Donors list surplus food with details like quantity, expiry, and pickup location.</p>
+            <div class="feature-icon">🍽️</div>
+            <h3 class="feature-title">Donate Food</h3>
+            <p class="feature-desc">List your surplus food items and schedule a pickup. We handle the rest.</p>
           </div>
           <div class="glass-card feature-card">
-            <div class="feature-icon">🔍</div>
-            <h3 class="feature-title">Find Available Food</h3>
-            <p class="feature-desc">Recipients and NGOs browse available food listings and request what they need.</p>
+            <div class="feature-icon">🔗</div>
+            <h3 class="feature-title">We Connect</h3>
+            <p class="feature-desc">Our platform matches donors with NGOs and individuals who need food assistance.</p>
           </div>
           <div class="glass-card feature-card">
-            <div class="feature-icon">🚗</div>
-            <h3 class="feature-title">Volunteer Delivery</h3>
-            <p class="feature-desc">Volunteers pick up and deliver food to ensure it reaches those who need it most.</p>
+            <div class="feature-icon">🚚</div>
+            <h3 class="feature-title">Deliver Impact</h3>
+            <p class="feature-desc">Volunteers pick up and deliver food, ensuring it reaches those who need it most.</p>
           </div>
           <div class="glass-card feature-card">
-            <div class="feature-icon">❤️</div>
-            <h3 class="feature-title">Zero Waste</h3>
-            <p class="feature-desc">Together we reduce food waste and ensure every meal finds a grateful recipient.</p>
+            <div class="feature-icon">🏢</div>
+            <h3 class="feature-title">NGO Partners</h3>
+            <p class="feature-desc">Register your NGO to receive food donations and help distribute to communities.</p>
           </div>
         </div>
       </div>
@@ -117,9 +118,12 @@
     <section class="cta-section">
       <div class="container">
         <div class="glass-card cta-card">
-          <h2 class="cta-title">Join Our Volunteer Network</h2>
-          <p class="cta-desc">Help us bridge the gap between food donors and those in need. Every hour you give makes a difference.</p>
-          <a href="volunteer-form.html" class="btn-orange">Become a Volunteer</a>
+          <h2 class="cta-title">Join the Movement</h2>
+          <p class="cta-desc">Whether you're a donor, volunteer, or NGO — there's a place for you in ByteMeal.</p>
+          <div class="cta-buttons">
+            <a href="volunteer-form.html" class="btn-orange">🙋 Become a Volunteer</a>
+            <a href="ngo-registration.html" class="btn-blue">🏢 Register NGO</a>
+          </div>
         </div>
       </div>
     </section>
@@ -133,10 +137,8 @@
           <span class="logo-icon">🍱</span>
           <span class="logo-text">ByteMeal</span>
         </div>
-        <p class="footer-tagline">Zero Hunger, One Meal at a Time</p>
         <p class="footer-copy">
-          &copy; <span id="footerYear"></span> ByteMeal. Built with ❤️ using
-          <a href="https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=bytemeal-standalone" target="_blank" rel="noopener" class="footer-link">caffeine.ai</a>
+          &copy; <span id="footerYear"></span> ByteMeal. All rights reserved.
         </p>
       </div>
     </div>
@@ -149,12 +151,12 @@
   <script>
     document.getElementById('footerYear').textContent = new Date().getFullYear();
 
-    // Load stats from localStorage
     window.addEventListener('DOMContentLoaded', function () {
       var stats = getStats();
       document.getElementById('statDonations').textContent = stats.donations;
       document.getElementById('statRequests').textContent = stats.assistanceRequests;
       document.getElementById('statVolunteers').textContent = stats.volunteers;
+      document.getElementById('statNGOs').textContent = stats.ngos || 0;
     });
   </script>
 </body>

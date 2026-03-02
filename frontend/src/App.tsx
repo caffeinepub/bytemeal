@@ -7,8 +7,8 @@ import Home from './pages/Home';
 import DonorForm from './pages/DonorForm';
 import AssistanceRequestForm from './pages/AssistanceRequestForm';
 import VolunteerForm from './pages/VolunteerForm';
-import Dashboard from './pages/Dashboard';
 import FoodListings from './pages/FoodListings';
+import NGORegistrationForm from './pages/NGORegistrationForm';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -47,16 +47,16 @@ const volunteerRoute = createRoute({
   component: VolunteerForm,
 });
 
-const dashboardRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/dashboard',
-  component: Dashboard,
-});
-
 const listingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/listings',
   component: FoodListings,
+});
+
+const ngoRegisterRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/ngo-register',
+  component: NGORegistrationForm,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -64,8 +64,8 @@ const routeTree = rootRoute.addChildren([
   donateRoute,
   requestHelpRoute,
   volunteerRoute,
-  dashboardRoute,
   listingsRoute,
+  ngoRegisterRoute,
 ]);
 
 const router = createRouter({ routeTree });

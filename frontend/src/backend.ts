@@ -89,10 +89,515 @@ export class ExternalBlob {
         return this;
     }
 }
-export interface backendInterface {
+export interface NGO {
+    id: bigint;
+    status: NGOStatus;
+    name: string;
+    contactPerson: string;
+    email: string;
+    address: string;
+    phoneNumber: string;
+    assistanceType: AssistanceType;
 }
+export interface FoodDonation {
+    id: bigint;
+    status: DonationStatus;
+    foodItems: string;
+    donorName: string;
+    quantity: bigint;
+    pickupLocation: string;
+}
+export interface UserProfile {
+    name: string;
+    email: string;
+    organization: string;
+}
+export enum AssistanceType {
+    medicalAid = "medicalAid",
+    foodDistribution = "foodDistribution",
+    education = "education",
+    generalRelief = "generalRelief",
+    shelter = "shelter"
+}
+export enum DonationStatus {
+    available = "available",
+    collected = "collected",
+    accepted = "accepted"
+}
+export enum NGOStatus {
+    pending = "pending",
+    approved = "approved",
+    rejected = "rejected"
+}
+export enum UserRole {
+    admin = "admin",
+    user = "user",
+    guest = "guest"
+}
+export interface backendInterface {
+    _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
+    acceptDonation(donationId: bigint): Promise<void>;
+    addFoodDonation(donorName: string, foodItems: string, quantity: bigint, pickupLocation: string): Promise<void>;
+    addNGO(name: string, contactPerson: string, email: string, phoneNumber: string, address: string, assistanceType: AssistanceType): Promise<void>;
+    assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    deleteNGO(id: bigint): Promise<void>;
+    getCallerUserProfile(): Promise<UserProfile | null>;
+    getCallerUserRole(): Promise<UserRole>;
+    getDonationStatus(id: bigint): Promise<DonationStatus | null>;
+    getFoodDonations(): Promise<Array<FoodDonation>>;
+    getNGOStatus(id: bigint): Promise<NGOStatus | null>;
+    getNGOs(): Promise<Array<NGO>>;
+    getUserProfile(user: Principal): Promise<UserProfile | null>;
+    isCallerAdmin(): Promise<boolean>;
+    markDonationAsCollected(donationId: bigint): Promise<void>;
+    saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    updateNGO(id: bigint, name: string, contactPerson: string, email: string, phoneNumber: string, address: string, assistanceType: AssistanceType): Promise<void>;
+    updateNGOStatus(id: bigint, newStatus: NGOStatus): Promise<void>;
+}
+import type { AssistanceType as _AssistanceType, DonationStatus as _DonationStatus, FoodDonation as _FoodDonation, NGO as _NGO, NGOStatus as _NGOStatus, UserProfile as _UserProfile, UserRole as _UserRole } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
+    async _initializeAccessControlWithSecret(arg0: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor._initializeAccessControlWithSecret(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor._initializeAccessControlWithSecret(arg0);
+            return result;
+        }
+    }
+    async acceptDonation(arg0: bigint): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.acceptDonation(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.acceptDonation(arg0);
+            return result;
+        }
+    }
+    async addFoodDonation(arg0: string, arg1: string, arg2: bigint, arg3: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addFoodDonation(arg0, arg1, arg2, arg3);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addFoodDonation(arg0, arg1, arg2, arg3);
+            return result;
+        }
+    }
+    async addNGO(arg0: string, arg1: string, arg2: string, arg3: string, arg4: string, arg5: AssistanceType): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addNGO(arg0, arg1, arg2, arg3, arg4, to_candid_AssistanceType_n1(this._uploadFile, this._downloadFile, arg5));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addNGO(arg0, arg1, arg2, arg3, arg4, to_candid_AssistanceType_n1(this._uploadFile, this._downloadFile, arg5));
+            return result;
+        }
+    }
+    async assignCallerUserRole(arg0: Principal, arg1: UserRole): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.assignCallerUserRole(arg0, to_candid_UserRole_n3(this._uploadFile, this._downloadFile, arg1));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.assignCallerUserRole(arg0, to_candid_UserRole_n3(this._uploadFile, this._downloadFile, arg1));
+            return result;
+        }
+    }
+    async deleteNGO(arg0: bigint): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.deleteNGO(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.deleteNGO(arg0);
+            return result;
+        }
+    }
+    async getCallerUserProfile(): Promise<UserProfile | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getCallerUserProfile();
+                return from_candid_opt_n5(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getCallerUserProfile();
+            return from_candid_opt_n5(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getCallerUserRole(): Promise<UserRole> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getCallerUserRole();
+                return from_candid_UserRole_n6(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getCallerUserRole();
+            return from_candid_UserRole_n6(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getDonationStatus(arg0: bigint): Promise<DonationStatus | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getDonationStatus(arg0);
+                return from_candid_opt_n8(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getDonationStatus(arg0);
+            return from_candid_opt_n8(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getFoodDonations(): Promise<Array<FoodDonation>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getFoodDonations();
+                return from_candid_vec_n11(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getFoodDonations();
+            return from_candid_vec_n11(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getNGOStatus(arg0: bigint): Promise<NGOStatus | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getNGOStatus(arg0);
+                return from_candid_opt_n14(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getNGOStatus(arg0);
+            return from_candid_opt_n14(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getNGOs(): Promise<Array<NGO>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getNGOs();
+                return from_candid_vec_n17(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getNGOs();
+            return from_candid_vec_n17(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getUserProfile(arg0: Principal): Promise<UserProfile | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getUserProfile(arg0);
+                return from_candid_opt_n5(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getUserProfile(arg0);
+            return from_candid_opt_n5(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async isCallerAdmin(): Promise<boolean> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.isCallerAdmin();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.isCallerAdmin();
+            return result;
+        }
+    }
+    async markDonationAsCollected(arg0: bigint): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.markDonationAsCollected(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.markDonationAsCollected(arg0);
+            return result;
+        }
+    }
+    async saveCallerUserProfile(arg0: UserProfile): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.saveCallerUserProfile(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.saveCallerUserProfile(arg0);
+            return result;
+        }
+    }
+    async updateNGO(arg0: bigint, arg1: string, arg2: string, arg3: string, arg4: string, arg5: string, arg6: AssistanceType): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updateNGO(arg0, arg1, arg2, arg3, arg4, arg5, to_candid_AssistanceType_n1(this._uploadFile, this._downloadFile, arg6));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updateNGO(arg0, arg1, arg2, arg3, arg4, arg5, to_candid_AssistanceType_n1(this._uploadFile, this._downloadFile, arg6));
+            return result;
+        }
+    }
+    async updateNGOStatus(arg0: bigint, arg1: NGOStatus): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updateNGOStatus(arg0, to_candid_NGOStatus_n22(this._uploadFile, this._downloadFile, arg1));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updateNGOStatus(arg0, to_candid_NGOStatus_n22(this._uploadFile, this._downloadFile, arg1));
+            return result;
+        }
+    }
+}
+function from_candid_AssistanceType_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _AssistanceType): AssistanceType {
+    return from_candid_variant_n21(_uploadFile, _downloadFile, value);
+}
+function from_candid_DonationStatus_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _DonationStatus): DonationStatus {
+    return from_candid_variant_n10(_uploadFile, _downloadFile, value);
+}
+function from_candid_FoodDonation_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _FoodDonation): FoodDonation {
+    return from_candid_record_n13(_uploadFile, _downloadFile, value);
+}
+function from_candid_NGOStatus_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _NGOStatus): NGOStatus {
+    return from_candid_variant_n16(_uploadFile, _downloadFile, value);
+}
+function from_candid_NGO_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _NGO): NGO {
+    return from_candid_record_n19(_uploadFile, _downloadFile, value);
+}
+function from_candid_UserRole_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
+    return from_candid_variant_n7(_uploadFile, _downloadFile, value);
+}
+function from_candid_opt_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_NGOStatus]): NGOStatus | null {
+    return value.length === 0 ? null : from_candid_NGOStatus_n15(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_opt_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_UserProfile]): UserProfile | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_DonationStatus]): DonationStatus | null {
+    return value.length === 0 ? null : from_candid_DonationStatus_n9(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_record_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: bigint;
+    status: _DonationStatus;
+    foodItems: string;
+    donorName: string;
+    quantity: bigint;
+    pickupLocation: string;
+}): {
+    id: bigint;
+    status: DonationStatus;
+    foodItems: string;
+    donorName: string;
+    quantity: bigint;
+    pickupLocation: string;
+} {
+    return {
+        id: value.id,
+        status: from_candid_DonationStatus_n9(_uploadFile, _downloadFile, value.status),
+        foodItems: value.foodItems,
+        donorName: value.donorName,
+        quantity: value.quantity,
+        pickupLocation: value.pickupLocation
+    };
+}
+function from_candid_record_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: bigint;
+    status: _NGOStatus;
+    name: string;
+    contactPerson: string;
+    email: string;
+    address: string;
+    phoneNumber: string;
+    assistanceType: _AssistanceType;
+}): {
+    id: bigint;
+    status: NGOStatus;
+    name: string;
+    contactPerson: string;
+    email: string;
+    address: string;
+    phoneNumber: string;
+    assistanceType: AssistanceType;
+} {
+    return {
+        id: value.id,
+        status: from_candid_NGOStatus_n15(_uploadFile, _downloadFile, value.status),
+        name: value.name,
+        contactPerson: value.contactPerson,
+        email: value.email,
+        address: value.address,
+        phoneNumber: value.phoneNumber,
+        assistanceType: from_candid_AssistanceType_n20(_uploadFile, _downloadFile, value.assistanceType)
+    };
+}
+function from_candid_variant_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    available: null;
+} | {
+    collected: null;
+} | {
+    accepted: null;
+}): DonationStatus {
+    return "available" in value ? DonationStatus.available : "collected" in value ? DonationStatus.collected : "accepted" in value ? DonationStatus.accepted : value;
+}
+function from_candid_variant_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    pending: null;
+} | {
+    approved: null;
+} | {
+    rejected: null;
+}): NGOStatus {
+    return "pending" in value ? NGOStatus.pending : "approved" in value ? NGOStatus.approved : "rejected" in value ? NGOStatus.rejected : value;
+}
+function from_candid_variant_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    medicalAid: null;
+} | {
+    foodDistribution: null;
+} | {
+    education: null;
+} | {
+    generalRelief: null;
+} | {
+    shelter: null;
+}): AssistanceType {
+    return "medicalAid" in value ? AssistanceType.medicalAid : "foodDistribution" in value ? AssistanceType.foodDistribution : "education" in value ? AssistanceType.education : "generalRelief" in value ? AssistanceType.generalRelief : "shelter" in value ? AssistanceType.shelter : value;
+}
+function from_candid_variant_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    admin: null;
+} | {
+    user: null;
+} | {
+    guest: null;
+}): UserRole {
+    return "admin" in value ? UserRole.admin : "user" in value ? UserRole.user : "guest" in value ? UserRole.guest : value;
+}
+function from_candid_vec_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_FoodDonation>): Array<FoodDonation> {
+    return value.map((x)=>from_candid_FoodDonation_n12(_uploadFile, _downloadFile, x));
+}
+function from_candid_vec_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_NGO>): Array<NGO> {
+    return value.map((x)=>from_candid_NGO_n18(_uploadFile, _downloadFile, x));
+}
+function to_candid_AssistanceType_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: AssistanceType): _AssistanceType {
+    return to_candid_variant_n2(_uploadFile, _downloadFile, value);
+}
+function to_candid_NGOStatus_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: NGOStatus): _NGOStatus {
+    return to_candid_variant_n23(_uploadFile, _downloadFile, value);
+}
+function to_candid_UserRole_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): _UserRole {
+    return to_candid_variant_n4(_uploadFile, _downloadFile, value);
+}
+function to_candid_variant_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: AssistanceType): {
+    medicalAid: null;
+} | {
+    foodDistribution: null;
+} | {
+    education: null;
+} | {
+    generalRelief: null;
+} | {
+    shelter: null;
+} {
+    return value == AssistanceType.medicalAid ? {
+        medicalAid: null
+    } : value == AssistanceType.foodDistribution ? {
+        foodDistribution: null
+    } : value == AssistanceType.education ? {
+        education: null
+    } : value == AssistanceType.generalRelief ? {
+        generalRelief: null
+    } : value == AssistanceType.shelter ? {
+        shelter: null
+    } : value;
+}
+function to_candid_variant_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: NGOStatus): {
+    pending: null;
+} | {
+    approved: null;
+} | {
+    rejected: null;
+} {
+    return value == NGOStatus.pending ? {
+        pending: null
+    } : value == NGOStatus.approved ? {
+        approved: null
+    } : value == NGOStatus.rejected ? {
+        rejected: null
+    } : value;
+}
+function to_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): {
+    admin: null;
+} | {
+    user: null;
+} | {
+    guest: null;
+} {
+    return value == UserRole.admin ? {
+        admin: null
+    } : value == UserRole.user ? {
+        user: null
+    } : value == UserRole.guest ? {
+        guest: null
+    } : value;
 }
 export interface CreateActorOptions {
     agent?: Agent;
