@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – NGO Approval – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="ngo-registration.html" class="nav-link">NGO Register</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="admin-ngo-approval.html" class="nav-link active">Admin: NGOs</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="listings-main">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">⚙️ NGO Approval Panel</h1>
+        <p class="page-subtitle">Review and manage NGO registration requests</p>
+      </div>
+
+      <!-- Summary Pills -->
+      <div id="summaryPills" class="stats-grid" style="margin-bottom: 2rem;"></div>
+
+      <!-- NGO Cards Grid -->
+      <div id="ngoGrid" class="listings-grid">
+        <p class="panel-empty" style="text-align:center; padding: 3rem; color: rgba(255,255,255,0.5);">
+          No NGOs registered yet.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function getStatusBadgeClass(status) {
+      if (status === 'Approved') return 'badge-fresh';
+      if (status === 'Rejected') return 'badge-expired';
+      return 'badge-soon';
+    }
+
+    function renderNGOs() {
+      var ngos = getAllNGOs();
+      var gridEl = document.getElementById('ngoGrid');
+      var pillsEl = document.getElementById('summaryPills');
+
+      var pending = ngos.filter(function(n) { return n.status === 'Pending'; }).length;
+      var approved = ngos.filter(function(n) { return n.status === 'Approved'; }).length;
+      var rejected = ngos.filter(function(n) { return n.status === 'Rejected'; }).length;
+
+      pillsEl.innerHTML =
+        '<div class="glass-card stat-card"><div class="stat-icon">🏢</div><div class="stat-number">' + ngos.length + '</div><div class="stat-label">Total NGOs</div></div>' +
+        '<div class="glass-card stat-card"><div class="stat-icon">⏳</div><div class="stat-number">' + pending + '</div><div class="stat-label">Pending</div></div>' +
+        '<div class="glass-card stat-card"><div class="stat-icon">✅</div><div class="stat-number">' + approved + '</div><div class="stat-label">Approved</div></div>' +
+        '<div class="glass-card stat-card"><div class="stat-icon">❌</div><div class="stat-number">' + rejected + '</div><div class="stat-label">Rejected</div></div>';
+
+      if (ngos.length === 0) {
+        gridEl.innerHTML = '<p class="panel-empty" style="text-align:center; padding: 3rem; color: rgba(255,255,255,0.5);">No NGOs registered yet.</p>';
+        return;
+      }
+
+      gridEl.innerHTML = ngos.map(function (ngo) {
+        var isPending = ngo.status === 'Pending';
+        var actionBtns = isPending
+          ? '<div style="display:flex;gap:0.5rem;margin-top:1rem;">' +
+              '<button class="btn-orange btn-sm" onclick="handleApprove(\'' + ngo.id + '\')">✅ Approve</button>' +
+              '<button class="btn-sm btn-disabled" style="background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.3);cursor:pointer;" onclick="handleReject(\'' + ngo.id + '\')">❌ Reject</button>' +
+            '</div>'
+          : '';
+
+        return '<div class="glass-card listing-card" style="padding:1.5rem;">' +
+          '<div class="listing-header" style="margin-bottom:1rem;">' +
+            '<div class="listing-icon">🏢</div>' +
+            '<div class="listing-meta">' +
+              '<h3 class="listing-title">' + escapeHtml(ngo.name) + '</h3>' +
+              '<p class="listing-sub">' + escapeHtml(ngo.contactPerson) + '</p>' +
+            '</div>' +
+            '<span class="badge ' + getStatusBadgeClass(ngo.status) + '">' + escapeHtml(ngo.status) + '</span>' +
+          '</div>' +
+          '<div class="listing-details">' +
+            '<div class="listing-detail"><span>📧</span><span>' + escapeHtml(ngo.email) + '</span></div>' +
+            '<div class="listing-detail"><span>📞</span><span>' + escapeHtml(ngo.phoneNumber) + '</span></div>' +
+            '<div class="listing-detail"><span>📍</span><span>' + escapeHtml(ngo.address) + '</span></div>' +
+            '<div class="listing-detail"><span>🤝</span><span>' + escapeHtml(ngo.assistanceType) + '</span></div>' +
+          '</div>' +
+          actionBtns +
+        '</div>';
+      }).join('');
+    }
+
+    function handleApprove(id) {
+      updateNGOStatus(id, 'Approved');
+      showToast('✅ NGO approved successfully!', 'success');
+      renderNGOs();
+    }
+
+    function handleReject(id) {
+      updateNGOStatus(id, 'Rejected');
+      showToast('❌ NGO rejected.', 'error');
+      renderNGOs();
+    }
+
+    window.addEventListener('DOMContentLoaded', renderNGOs);
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Listings – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link active">Food Listings</a></li>
+        <li><a href="ngo-registration.html" class="nav-link">NGO Register</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="admin-ngo-approval.html" class="nav-link">Admin: NGOs</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="listings-main">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">🍽️ Food Listings</h1>
+        <p class="page-subtitle">Browse available food donations in your area</p>
+        <a href="donor-form.html" class="btn-orange">+ Add Donation</a>
+      </div>
+
+      <!-- Listings Grid -->
+      <div id="listingsGrid" class="listings-grid">
+        <p class="panel-empty" style="text-align:center; padding: 3rem; color: rgba(255,255,255,0.5);">
+          No food listings yet. <a href="donor-form.html" style="color: #FF6B2B;">Be the first to donate!</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function getExpiryBadge(expiryDate) {
+      if (!expiryDate) return '<span class="badge badge-available">Available</span>';
+      var expiry = new Date(expiryDate);
+      var now = new Date();
+      var diffDays = Math.ceil((expiry - now) / (1000 * 60 * 60 * 24));
+      if (diffDays < 0) return '<span class="badge badge-expired">Expired</span>';
+      if (diffDays <= 1) return '<span class="badge badge-urgent">Expires Today</span>';
+      if (diffDays <= 3) return '<span class="badge badge-soon">Expires Soon</span>';
+      return '<span class="badge badge-fresh">Fresh</span>';
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var donations = getDonations();
+      var gridEl = document.getElementById('listingsGrid');
+
+      if (donations.length === 0) return;
+
+      gridEl.innerHTML = donations.map(function (d) {
+        return '<div class="glass-card listing-card">' +
+          '<div class="listing-header">' +
+            '<div class="listing-icon">🍱</div>' +
+            '<div class="listing-meta">' +
+              '<h3 class="listing-title">' + escapeHtml(d.foodItem) + '</h3>' +
+              '<p class="listing-sub">' + escapeHtml(d.donorId || 'Anonymous') + '</p>' +
+            '</div>' +
+            getExpiryBadge(d.expiryDate) +
+          '</div>' +
+          '<div class="listing-details">' +
+            '<div class="listing-detail"><span>📦</span><span>' + escapeHtml(d.quantity + ' ' + (d.unit || '')) + '</span></div>' +
+            '<div class="listing-detail"><span>📍</span><span>' + escapeHtml(d.pickupLocation || 'Location not specified') + '</span></div>' +
+            (d.notes ? '<div class="listing-detail"><span>📝</span><span>' + escapeHtml(d.notes) + '</span></div>' : '') +
+          '</div>' +
+        '</div>';
+      }).join('');
+    });
+  </script>
+</body>
+</html>

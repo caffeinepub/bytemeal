@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – ByteMeal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="ngo-registration.html" class="nav-link">NGO Register</a></li>
+        <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+        <li><a href="admin-ngo-approval.html" class="nav-link">Admin: NGOs</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">Platform Dashboard</h1>
+        <p class="page-subtitle">Live statistics and recent activity</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid dashboard-stats">
+        <div class="glass-card stat-card">
+          <div class="stat-icon">🍱</div>
+          <div class="stat-number" id="dashDonations">0</div>
+          <div class="stat-label">Total Donations</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-number" id="dashRequests">0</div>
+          <div class="stat-label">Assistance Requests</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-number" id="dashVolunteers">0</div>
+          <div class="stat-label">Volunteers Registered</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-icon">🏢</div>
+          <div class="stat-number" id="dashNGOs">0</div>
+          <div class="stat-label">NGOs Registered</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-number" id="dashClaimed">0</div>
+          <div class="stat-label">Meals Claimed</div>
+        </div>
+      </div>
+
+      <!-- Dashboard Content Grid -->
+      <div class="dashboard-grid">
+        <!-- Recent Donations -->
+        <div class="glass-card dashboard-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">🍽️ Recent Donations</h2>
+            <a href="donor-form.html" class="btn-orange btn-sm">+ Add</a>
+          </div>
+          <div id="recentDonations" class="panel-list">
+            <p class="panel-empty">No donations yet.</p>
+          </div>
+        </div>
+
+        <!-- Recent Requests -->
+        <div class="glass-card dashboard-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">🤝 Recent Requests</h2>
+            <a href="assistance-form.html" class="btn-blue btn-sm">+ Add</a>
+          </div>
+          <div id="recentRequests" class="panel-list">
+            <p class="panel-empty">No requests yet.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Volunteers Section -->
+      <div class="glass-card dashboard-panel volunteers-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">🙋 Registered Volunteers</h2>
+          <a href="volunteer-form.html" class="btn-orange btn-sm">+ Join</a>
+        </div>
+        <div id="volunteersGrid" class="volunteers-grid">
+          <p class="panel-empty">No volunteers registered yet.</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions-grid">
+        <a href="donor-form.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">🍽️</div>
+          <div class="quick-action-label">Donate Food</div>
+        </a>
+        <a href="assistance-form.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">🤝</div>
+          <div class="quick-action-label">Get Help</div>
+        </a>
+        <a href="volunteer-form.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">🙋</div>
+          <div class="quick-action-label">Volunteer</div>
+        </a>
+        <a href="food-listings.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">📋</div>
+          <div class="quick-action-label">Food Listings</div>
+        </a>
+        <a href="ngo-registration.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">🏢</div>
+          <div class="quick-action-label">Register NGO</div>
+        </a>
+        <a href="admin-ngo-approval.html" class="glass-card quick-action-card">
+          <div class="quick-action-icon">⚙️</div>
+          <div class="quick-action-label">Admin: NGOs</div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var stats = getStats();
+      document.getElementById('dashDonations').textContent = stats.donations;
+      document.getElementById('dashRequests').textContent = stats.assistanceRequests;
+      document.getElementById('dashVolunteers').textContent = stats.volunteers;
+      document.getElementById('dashNGOs').textContent = stats.ngos || 0;
+      document.getElementById('dashClaimed').textContent = stats.claimed || 0;
+
+      // Recent Donations
+      var donations = getDonations();
+      var donationsEl = document.getElementById('recentDonations');
+      if (donations.length > 0) {
+        donationsEl.innerHTML = donations.slice(-5).reverse().map(function (d) {
+          return '<div class="panel-item">' +
+            '<div class="panel-item-icon">🍱</div>' +
+            '<div class="panel-item-info">' +
+              '<div class="panel-item-title">' + escapeHtml(d.foodItem) + '</div>' +
+              '<div class="panel-item-sub">' + escapeHtml(d.quantity + ' ' + (d.unit || '')) + ' · ' + escapeHtml(d.donorId || 'Anonymous') + '</div>' +
+            '</div>' +
+            '<span class="badge badge-available">Available</span>' +
+          '</div>';
+        }).join('');
+      }
+
+      // Recent Requests
+      var requests = getAssistanceRequests();
+      var requestsEl = document.getElementById('recentRequests');
+      if (requests.length > 0) {
+        requestsEl.innerHTML = requests.slice(-5).reverse().map(function (r) {
+          var urgencyClass = r.urgency === 'critical' ? 'badge-expired' : r.urgency === 'high' ? 'badge-urgent' : r.urgency === 'medium' ? 'badge-soon' : 'badge-available';
+          return '<div class="panel-item">' +
+            '<div class="panel-item-icon">🤝</div>' +
+            '<div class="panel-item-info">' +
+              '<div class="panel-item-title">' + escapeHtml(r.recipientName) + '</div>' +
+              '<div class="panel-item-sub">' + escapeHtml(r.numberOfPeople) + ' people · ' + escapeHtml(r.deliveryAddress || '') + '</div>' +
+            '</div>' +
+            '<span class="badge ' + urgencyClass + '">' + escapeHtml(r.urgency || 'normal') + '</span>' +
+          '</div>';
+        }).join('');
+      }
+
+      // Volunteers
+      var volunteers = getVolunteers();
+      var volunteersEl = document.getElementById('volunteersGrid');
+      if (volunteers.length > 0) {
+        volunteersEl.innerHTML = volunteers.map(function (v) {
+          return '<div class="volunteer-card">' +
+            '<div class="volunteer-avatar">' + escapeHtml((v.fullName || 'V').charAt(0).toUpperCase()) + '</div>' +
+            '<div class="volunteer-name">' + escapeHtml(v.fullName) + '</div>' +
+            '<div class="volunteer-role">' + escapeHtml(v.preferredRole || 'Volunteer') + '</div>' +
+            '<div class="volunteer-location">📍 ' + escapeHtml(v.location || '') + '</div>' +
+          '</div>';
+        }).join('');
+      }
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>

@@ -1,16 +1,32 @@
-# Specification
+# ByteMeal
 
-## Summary
-**Goal:** Simplify the ByteMeal app by removing unused pages/navigation links, cleaning up the Home page, and adding NGO status actions (Accept/Collected) to donation listings.
+## Current State
+ByteMeal is built with React + TypeScript + Motoko backend. The backend connection is broken causing all forms to fail. User wants a working website using only HTML, CSS, and JavaScript (no backend dependency).
 
-**Planned changes:**
-- Remove Dashboard page route and its navigation link; navigating to /dashboard redirects to home or shows 404.
-- Remove Admin NGO Approval page route and its "Admin: NGOs" navigation link.
-- Update Navigation to show only: Home, Donate, Get Help, Volunteer, NGO Register, and Food Listings (kept for NGO actions).
-- Add "Accept" and "Mark as Collected" action buttons to each donation card on the Food Listings page.
-- Add `updateDonationStatus` function to the backend to persist donation status (Available → Accepted → Collected).
-- Display a color-coded status badge on each donation card: Available (green), Accepted (sky-blue), Collected (gray).
-- Show a toast notification on successful status update.
-- Update Home page to remove platform stats counters and any CTA buttons/links pointing to Dashboard or Food Listings; keep only "Donate Food" and "Get Help" CTAs.
+## Requested Changes (Diff)
 
-**User-visible outcome:** The app has a clean navigation with only the core forms and Food Listings. NGOs can open Food Listings, accept donations, and mark them as collected with real-time status badges and toast feedback. The Home page shows only the two primary CTAs with no stats counters.
+### Add
+- Replace the entire React frontend with a pure HTML/CSS/JS implementation embedded in the existing Vite/React shell
+- All data stored in localStorage (no backend calls)
+- Pages: Home, Donor Form, NGO Registration, Volunteer Form, Assistance Request Form, Feedback Form, Food Listings
+
+### Modify
+- Replace all React pages with a single-page app (SPA) approach using vanilla JS routing inside the React shell
+- OR: rebuild App.tsx and all pages to be pure HTML-rendering components with no backend hooks at all
+- All forms submit to localStorage and show success toasts
+- Food Listings reads from localStorage donations
+
+### Remove
+- All backend actor calls (useActor, useQueries backend calls)
+- AdminNGOApproval page (not needed)
+- Dashboard page (not needed)
+
+## Implementation Plan
+1. Rewrite App.tsx to use React Router with all pages
+2. Rewrite every page component to use localStorage instead of backend calls
+3. Create a simple localStorage utility
+4. Keep all glassmorphism styling (glass-card, btn-orange, btn-sky, etc.)
+5. Keep food background image
+6. All forms: submit → save to localStorage → show success toast
+7. Food Listings: read from localStorage
+8. Typecheck and build

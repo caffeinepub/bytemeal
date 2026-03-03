@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ByteMeal – Zero Hunger</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-glass">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🍱</span>
+        <span class="logo-text">ByteMeal</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="donor-form.html" class="nav-link">Donate Food</a></li>
+        <li><a href="assistance-form.html" class="nav-link">Get Help</a></li>
+        <li><a href="volunteer-form.html" class="nav-link">Volunteer</a></li>
+        <li><a href="food-listings.html" class="nav-link">Food Listings</a></li>
+        <li><a href="ngo-registration.html" class="nav-link">NGO Register</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="admin-ngo-approval.html" class="nav-link">Admin: NGOs</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Background -->
+  <div class="bg-overlay"></div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-badge">🌍 Fighting Food Waste Together</div>
+        <h1 class="hero-title">
+          ByteMeal:<br />
+          <span class="gradient-text">Zero Hunger</span>
+        </h1>
+        <p class="hero-subtitle">
+          Connecting food donors with those in need. Every meal shared is a step toward a hunger-free world.
+        </p>
+        <div class="hero-buttons">
+          <a href="donor-form.html" class="btn-orange">
+            🍽️ Donate Food
+          </a>
+          <a href="assistance-form.html" class="btn-blue">
+            🤝 Get Help
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="glass-card stat-card">
+            <div class="stat-icon">🍱</div>
+            <div class="stat-number" id="statDonations">0</div>
+            <div class="stat-label">Meals Donated</div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon">🤝</div>
+            <div class="stat-number" id="statRequests">0</div>
+            <div class="stat-label">Assistance Requests</div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-number" id="statVolunteers">0</div>
+            <div class="stat-label">Volunteers</div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon">🏢</div>
+            <div class="stat-number" id="statNGOs">0</div>
+            <div class="stat-label">NGOs Registered</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <h2 class="section-title">How ByteMeal Works</h2>
+        <div class="features-grid">
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🍽️</div>
+            <h3 class="feature-title">Donate Food</h3>
+            <p class="feature-desc">List your surplus food items and schedule a pickup. We handle the rest.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🔗</div>
+            <h3 class="feature-title">We Connect</h3>
+            <p class="feature-desc">Our platform matches donors with NGOs and individuals who need food assistance.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🚚</div>
+            <h3 class="feature-title">Deliver Impact</h3>
+            <p class="feature-desc">Volunteers pick up and deliver food, ensuring it reaches those who need it most.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🏢</div>
+            <h3 class="feature-title">NGO Partners</h3>
+            <p class="feature-desc">Register your NGO to receive food donations and help distribute to communities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Volunteer CTA -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="glass-card cta-card">
+          <h2 class="cta-title">Join the Movement</h2>
+          <p class="cta-desc">Whether you're a donor, volunteer, or NGO — there's a place for you in ByteMeal.</p>
+          <div class="cta-buttons">
+            <a href="volunteer-form.html" class="btn-orange">🙋 Become a Volunteer</a>
+            <a href="ngo-registration.html" class="btn-blue">🏢 Register NGO</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🍱</span>
+          <span class="logo-text">ByteMeal</span>
+        </div>
+        <p class="footer-copy">
+          &copy; <span id="footerYear"></span> ByteMeal. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var stats = getStats();
+      document.getElementById('statDonations').textContent = stats.donations;
+      document.getElementById('statRequests').textContent = stats.assistanceRequests;
+      document.getElementById('statVolunteers').textContent = stats.volunteers;
+      document.getElementById('statNGOs').textContent = stats.ngos || 0;
+    });
+  </script>
+</body>
+</html>
